@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,7 @@
         .logo {
             position: absolute;
             top: -310px; /* odległość od góry */
-            left: 47.5%; /* przesunięte 5% w lewo (50% - 5% = 45%) */
+            left: 45%; /* przesunięte 5% w lewo (50% - 5% = 45%) */
             transform: translateX(-50%);
             z-index: 2; /* Logo przed chmurami */
             height: 800px; /* większe logo */
@@ -120,49 +120,86 @@
             text-align: center;
             z-index: 3; /* Przyciski na wierzchniej warstwie */
             position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        a.button {
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-label {
+            font-size: 18px;
+            color: #5a2a0e;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .text-input {
             display: inline-block;
-            margin: 40px; /* większy margines między przyciskami */
-            padding: 15px 45px; /* kształt bardziej jak deska */
-            font-size: 25px; /* powiększony tekst o 25% (20px * 1.25 = 25px) */
-            color: #f2cf0d; /* nowy kolor tekstu */
-            background-color: #863e15; /* kolor przycisku */
+            padding: 12px 35px; /* kształt bardziej jak deska */
+            font-size: 20px; /* rozmiar tekstu */
+            color: #f2cf0d; /* kolor tekstu */
+            background-color: #863e15; /* kolor tła */
             border-radius: 4px; /* mniej zaokrąglone rody - bardziej jak deska */
             text-decoration: none;
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
             position: relative;
             overflow: hidden;
-            z-index: 4; /* Przyciski na najwyższej warstwie */
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* większy cień dla przycisków */
+            z-index: 4; /* Pola na najwyższej warstwie */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* większy cień */
             border: 2px solid #5a2a0e; /* obramowanie dla efektu deski */
             font-weight: bold;
-            rotate: -1deg; /* lekkie przekrzywienie */
+            outline: none;
+            width: 250px;
+            text-align: center;
         }
 
-        /* Specyficzne przekrzywienie dla każdego przycisku */
-        #sillyButton {
+        /* Specyficzne przekrzywienie dla każdego pola */
+        #budzet {
             rotate: -1.5deg;
         }
 
-        #normalButton {
+        #panstwo {
             rotate: 1deg;
         }
 
-        a.button:hover {
+        #data {
+            rotate: -0.5deg;
+        }
+
+        .text-input:hover {
             background-color: #5a2a0e;
             transform: scale(1.05);
             box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6); /* jeszcze większy cień przy hover */
         }
 
         /* Zwiększone przekrzywienie przy hover */
-        #sillyButton:hover {
+        #budzet:hover {
             rotate: -3deg;
         }
 
-        #normalButton:hover {
+        #panstwo:hover {
             rotate: 2.5deg;
+        }
+
+        #data:hover {
+            rotate: -2deg;
+        }
+
+        .text-input:focus {
+            background-color: #5a2a0e;
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Placeholder styling */
+        .text-input::placeholder {
+            color: #f2cf0d;
+            opacity: 0.8;
         }
 
         /* Emotki wypadające */
@@ -335,8 +372,20 @@
     </div>
 
     <div class="container">
-        <a href="silly.html" class="button" id="sillyButton">Silly</a>
-        <a href="normal.html" class="button" id="normalButton">Normal</a>
+        <div class="input-group">
+            <div class="input-label">Budżet</div>
+            <input type="text" class="text-input" id="budzet" placeholder="Wpisz budżet...">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Państwo</div>
+            <input type="text" class="text-input" id="panstwo" placeholder="Wpisz państwo...">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Data</div>
+            <input type="text" class="text-input" id="data" placeholder="Wpisz datę...">
+        </div>
     </div>
 
     <!-- Dolny pasek z trójkątami -->
@@ -385,38 +434,42 @@
     <script>
         const normalEmojis = ['🚗', '🚙', '🚲', '🚂'];
         const sillyEmojis = ['😵‍💫', '🌀', '🌪️', '😵‍💫'];
-        const buttons = document.querySelectorAll('.button');
+        const inputs = document.querySelectorAll('.text-input');
 
-        buttons.forEach(button => {
-            button.addEventListener('mouseenter', function (e) {
-                if (e.target.id === 'sillyButton') {
-                    createExplosion(e.target, sillyEmojis);
+        inputs.forEach(input => {
+            input.addEventListener('mouseenter', function (e) {
+                if (e.target.id === 'budzet') {
+                    createExplosion(e.target, normalEmojis);
+                } else if (e.target.id === 'panstwo') {
+                    createExplosion(e.target, normalEmojis);
                 } else {
                     createExplosion(e.target, normalEmojis);
                 }
             });
 
-            button.addEventListener('click', function (e) {
-                if (e.target.id === 'sillyButton') {
-                    createExplosion(e.target, sillyEmojis);
+            input.addEventListener('focus', function (e) {
+                if (e.target.id === 'budzet') {
+                    createExplosion(e.target, normalEmojis);
+                } else if (e.target.id === 'panstwo') {
+                    createExplosion(e.target, normalEmojis);
                 } else {
                     createExplosion(e.target, normalEmojis);
                 }
             });
         });
 
-        function createExplosion(button, emojiList) {
-            const rect = button.getBoundingClientRect();
+        function createExplosion(input, emojiList) {
+            const rect = input.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-            const emojiCount = 10; /* zmniejszona ilość emoji */
+            const emojiCount = 8; /* jeszcze mniej emoji */
 
             for (let i = 0; i < emojiCount; i++) {
                 const emoji = document.createElement('div');
                 emoji.className = 'emoji';
                 emoji.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
 
-                // Losowa pozycja startowa w obszarze przycisku
+                // Losowa pozycja startowa w obszarze inputa
                 const startX = centerX + (Math.random() - 0.5) * rect.width;
                 const startY = centerY + (Math.random() - 0.5) * rect.height;
 
