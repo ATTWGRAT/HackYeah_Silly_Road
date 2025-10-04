@@ -51,7 +51,7 @@ createBtn.addEventListener('click', () => {
     sessionStorage.setItem('userName', owner);
 
     window.location.href = `lobby.html?code=${encodeURIComponent(code)}`;
-});
+})
 
 document.getElementById('przycisk_kodzik').addEventListener('click', () => {
     const entered = nameInput.value.trim();
