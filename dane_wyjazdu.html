@@ -94,8 +94,41 @@
             background: #f2cf0d;
             color: #5a2a0e;
         }
+        .search-result-box {
+            background: #fffbe6;
+            color: #5a2a0e;
+            border: 2px solid #f2cf0d;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-size: 1.08rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+        }
+        .search-result-box:hover {
+            background: #f7c564;
+            color: #863e15;
+        }
         @media (max-width: 900px) {
             #searchSidebar { width: 90vw; min-width: 0; }
+        }
+        .sidebar-searchbar {
+            padding: 0 24px 12px 24px;
+            background: #fff3d1;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+        .sidebar-searchbar input {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            border: 2px solid #f2cf0d;
+            outline: none;
+            box-sizing: border-box;
+            text-align: left;
         }
     </style>
 </head>
@@ -110,11 +143,12 @@
             <span class="sidebar-country" id="sidebarCountry"></span>
             <span class="sidebar-city" id="sidebarCity"></span>
         </div>
-        <div class="sidebar-searchbar" style="padding: 0 24px 12px 24px; background: #fff3d1;">
-            <input id="sidebarSearchInput" type="text" placeholder="Wyszukaj..." style="width:100%;padding:10px 16px;font-size:1.1rem;border-radius:6px;border:2px solid #f2cf0d;outline:none;box-sizing:border-box;">
+        <div class="sidebar-searchbar">
+            <input id="sidebarSearchInput" type="text" placeholder="Wyszukaj...">
         </div>
         <div class="sidebar-content">
             <div id="categoriesList" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;"></div>
+            <div id="searchResults" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;"></div>
             <!-- Tu można dodać pole wyszukiwania lub wyniki -->
         </div>
         <button id="sidebarToggle">&lt;</button>
@@ -298,6 +332,14 @@
             atrakcja: ["Muzeum", "Park rozrywki", "Plaża", "Szlak", "Restauracja", "Zamek", "Galeria", "Aquapark", "Klub"]
         };
 
+        // Przykładowe najpopularniejsze wyniki dla każdej kategorii
+        const popularResults = {
+            miejscowosc: ["Warszawa", "Kraków", "Gdańsk", "Zakopane", "Wrocław"],
+            transport: ["PKP Intercity", "FlixBus", "BlaBlaCar", "PolskiBus", "Uber"],
+            zakwaterowanie: ["Hotel Marriott", "Hostel One", "Airbnb Apartament", "Camping Słoneczny", "Pensjonat Pod Dębem"],
+            atrakcja: ["Muzeum Narodowe", "Energylandia", "Plaża Jelitkowo", "Szlak Orlich Gniazd", "Restauracja U Fukiera"]
+        };
+
         function renderCategories(stepKey) {
             const catDiv = document.getElementById('categoriesList');
             if (!catDiv) return;
@@ -315,6 +357,39 @@
                 catDiv.appendChild(el);
             });
         }
+
+        function renderSearchResults(stepKey) {
+            const resultsDiv = document.getElementById('searchResults');
+            if (!resultsDiv) return;
+            resultsDiv.innerHTML = '';
+            let arr = [];
+            if (stepKey.startsWith('atrakcja')) {
+                arr = popularResults.atrakcja;
+            } else if (popularResults[stepKey]) {
+                arr = popularResults[stepKey];
+            }
+            arr.forEach(res => {
+                const el = document.createElement('div');
+                el.className = 'search-result-box';
+                el.textContent = res;
+                resultsDiv.appendChild(el);
+            });
+        }
+
+        // Wywołuj renderSearchResults przy zmianie kroku i na starcie
+        const origRenderCategories = renderCategories;
+        renderCategories = function(stepKey) {
+            origRenderCategories(stepKey);
+            renderSearchResults(stepKey);
+        };
+        // Inicjalizacja na starcie
+        (function() {
+            const catDiv = document.getElementById('categoriesList');
+            if (!catDiv) return;
+            let wyjazdStep = parseInt(sessionStorage.getItem('wyjazd_step') || '0', 10);
+            let stepKey = steps[wyjazdStep] ? steps[wyjazdStep].key : 'miejscowosc';
+            renderCategories(stepKey);
+        })();
 
         renderStep();
     // Sidebar wyszukiwania
@@ -348,16 +423,6 @@
                 toggle.innerHTML = '&gt;';
             }
         };
-    })();
-
-    // Wyświetl kategorie w sidebarze na starcie
-    (function() {
-        const catDiv = document.getElementById('categoriesList');
-        if (!catDiv) return;
-        // Ustal aktualny krok
-        let wyjazdStep = parseInt(sessionStorage.getItem('wyjazd_step') || '0', 10);
-        let stepKey = steps[wyjazdStep] ? steps[wyjazdStep].key : 'miejscowosc';
-        renderCategories(stepKey);
     })();
     </script>
 </body>
