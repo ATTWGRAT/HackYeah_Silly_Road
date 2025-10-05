@@ -55,13 +55,23 @@
         .button:hover {
             background-color: #5a2a0e;
         }
+        .date-label {
+            font-size: 18px;
+            color: #5a2a0e;
+            font-weight: bold;
+            margin-bottom: -8px;
+            align-self: flex-start;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <input type="number" class="text-input" id="budgetInput" placeholder="Budzet" min="0" step="1">
-        <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+">
-        <input type="number" class="text-input" id="lengthInput" placeholder="Dlugosc wyjazdu" min="2" step="1">
+        <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-zï¿½ï¿½ï¿½ï¿½óœŸ¿ï¿½ï¿½Ê£ï¿½ÓŒï¿½ï¿½ ]+">
+    <label for="beginningInput" class="date-label">Data rozpoczÄ™cia:</label>
+    <input type="date" class="text-input date-input" id="beginningInput">
+    <label for="endInput" class="date-label">Data zakoÅ„czenia:</label>
+    <input type="date" class="text-input date-input" id="endInput">
         <button class="button" id="nextButton">Dalej</button>
     </div>
     <script>
@@ -91,42 +101,41 @@
         document.getElementById('nextButton').onclick = function() {
             const budget = document.getElementById('budgetInput').value.trim();
             const country = document.getElementById('countryInput').value.trim();
-            const length = document.getElementById('lengthInput').value.trim();
-            if (!budget || !country || !length) {
+            const beginning = document.getElementById('beginningInput').value;
+            const end = document.getElementById('endInput').value;
+            if (!budget || !country || !beginning || !end) {
                 alert('Wypelnij wszystkie pola!');
                 return;
             }
             if (!/^\d+$/.test(budget)) {
-                alert('Budzet musi byc liczb¹!');
+                alert('Budzet musi byc liczbÄ…!');
                 return;
             }
-            if (!/^\d+$/.test(length) || parseInt(length,10) < 2) {
-                alert('Dlugosc wyjazdu musi byc liczb¹ nie mniejsz¹ ni¿ 2!');
+            if (!/^[A-Za-zï¿½ï¿½ï¿½ï¿½óœŸ¿ï¿½ï¿½Ê£ï¿½ÓŒï¿½ï¿½ ]+$/.test(country)) {
+                alert('Kraj moÅ¼e zawieraÄ‡ tylko litery!');
                 return;
             }
-            if (!/^[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+$/.test(country)) {
-                alert('Kraj mo¿e zawieraæ tylko litery!');
+            const beginDate = new Date(beginning);
+            const endDate = new Date(end);
+            if (isNaN(beginDate.getTime()) || isNaN(endDate.getTime()) || endDate <= beginDate) {
+                alert('Data zakoÅ„czenia musi byÄ‡ po dacie rozpoczÄ™cia!');
                 return;
             }
             sessionStorage.setItem('lobbyBudget', budget);
             sessionStorage.setItem('lobbyCountry', country);
-            sessionStorage.setItem('lobbyLength', length);
+            sessionStorage.setItem('lobbyBeginning', beginning);
+            sessionStorage.setItem('lobbyEnd', end);
             // Tworzenie lobby
             const userName = localStorage.getItem('userName') || 'Anonim';
             const lobbies = loadLobbies();
             const code = generateUniqueCode(lobbies);
             if (!code) {
-                alert('Brak dostêpnych kodów — spróbuj póŸniej.');
+                alert('Brak dostÄ™pnych kodÃ³w â€“ sprÃ³buj pÃ³Åºniej.');
                 return;
             }
-            // Wyczyœæ dane wyjazdu dla nowego lobby
+            // WyczyÅ›Ä‡ dane wyjazdu dla nowego lobby
             const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
-            let len = parseInt(length, 10);
-            if (isNaN(len) || len < 2) len = 2;
-            let attractionsCount = 2 + (len - 2) * 3;
-            for (let i = 1; i <= attractionsCount; i++) {
-                wyjazdKeys.push(`atrakcja${i}`);
-            }
+            // MoÅ¼esz tu dodaÄ‡ wÅ‚asnÄ… logikÄ™ generowania atrakcji na podstawie dat
             wyjazdKeys.push('powrot');
             wyjazdKeys.forEach(key => {
                 sessionStorage.removeItem(`wyjazd_${code}_${key}`);
@@ -140,7 +149,8 @@
                 users: [userName],
                 budget,
                 country,
-                length
+                beginning,
+                end
             };
             lobbies.push(lobby);
             saveLobbies(lobbies);
