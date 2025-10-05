@@ -12,6 +12,102 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* Logo z animacją */
+        .logo {
+            position: absolute;
+            top: -310px;
+            left: 47.5%;
+            transform: translateX(-50%);
+            z-index: 2;
+            height: 800px;
+            width: auto;
+            animation: logoRotate 8s ease-in-out infinite;
+        }
+
+        @keyframes logoRotate {
+            0%, 100% {
+                transform: translateX(-50%) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateX(-50%) rotate(2deg);
+            }
+        }
+
+        /* Chmury z animacją */
+        .clouds-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cloud-group {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            animation: cloudsMove 58.2s linear infinite;
+        }
+
+        @keyframes cloudsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100px);
+            }
+        }
+
+        .cloud {
+            position: relative;
+            display: flex;
+        }
+
+        .cloud-circle {
+            background-color: #D1E5F4;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Góry z animacją */
+        .bottom-triangles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 1;
+            animation: mountainsMove 120s linear infinite;
+        }
+
+        @keyframes mountainsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100px);
+            }
+        }
+
+        .triangle {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        /* Kontener formularza */
         .container {
             position: absolute;
             top: 50%;
@@ -28,6 +124,7 @@
             box-shadow: 0 8px 18px rgba(0,0,0,0.12);
             padding: 32px 24px;
         }
+
         .text-input {
             padding: 12px 32px;
             font-size: 22px;
@@ -41,6 +138,7 @@
             width: 220px;
             text-align: center;
         }
+
         .button {
             padding: 12px 32px;
             font-size: 22px;
@@ -52,9 +150,11 @@
             box-shadow: 0 8px 18px rgba(0,0,0,0.12);
             cursor: pointer;
         }
-        .button:hover {
-            background-color: #5a2a0e;
-        }
+
+            .button:hover {
+                background-color: #5a2a0e;
+            }
+
         .date-label {
             font-size: 18px;
             color: #5a2a0e;
@@ -65,15 +165,107 @@
     </style>
 </head>
 <body>
+    <!-- Logo -->
+    <img src="silly_road_logo.png" alt="Silly Road Logo" class="logo">
+
+    <!-- Chmury -->
+    <div class="clouds-container">
+        <div class="cloud-group">
+            <div class="cloud" style="left: 1%; margin-top: 5px;">
+                <div class="cloud-circle" style="width: 102px; height: 102px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 17px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 34px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 8px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 3%; margin-top: 25px;">
+                <div class="cloud-circle" style="width: 119px; height: 119px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 15px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 32px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -34px; margin-top: 7px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 5%; margin-top: 40px;">
+                <div class="cloud-circle" style="width: 93px; height: 93px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 27px;"></div>
+                <div class="cloud-circle" style="width: 59px; height: 59px; margin-left: -17px; margin-top: 44px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 18px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 7%; margin-top: 15px;">
+                <div class="cloud-circle" style="width: 110px; height: 110px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 52px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 27px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 9%; margin-top: 30px;">
+                <div class="cloud-circle" style="width: 85px; height: 85px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -20px; margin-top: 23px;"></div>
+                <div class="cloud-circle" style="width: 51px; height: 51px; margin-left: -17px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 15px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 12%; margin-top: 10px;">
+                <div class="cloud-circle" style="width: 127px; height: 127px;"></div>
+                <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 30px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -30px; margin-top: 47px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 23px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formularz -->
     <div class="container">
         <input type="number" class="text-input" id="budgetInput" placeholder="Budzet" min="0" step="1">
         <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-z����󜟿��ʣ�ӌ�� ]+">
-    <label for="beginningInput" class="date-label">Data rozpoczęcia:</label>
-    <input type="date" class="text-input date-input" id="beginningInput">
-    <label for="endInput" class="date-label">Data zakończenia:</label>
-    <input type="date" class="text-input date-input" id="endInput">
+        <label for="beginningInput" class="date-label">Data rozpoczęcia:</label>
+        <input type="date" class="text-input date-input" id="beginningInput">
+        <label for="endInput" class="date-label">Data zakończenia:</label>
+        <input type="date" class="text-input date-input" id="endInput">
         <button class="button" id="nextButton">Dalej</button>
     </div>
+
+    <!-- Góry -->
+    <div class="bottom-triangles">
+        <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 7%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 11%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 13%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 16%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 20%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 21%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 25%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 34%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 40%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 42%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 45%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 50%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 51%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 53%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 56%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 60%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 63%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 64%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 85%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 90%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 92%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 94%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 97%; border-width: 0 85px 125px 85px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 100%; border-width: 0 70px 130px 70px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 103%; border-width: 0 65px 105px 65px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 106%; border-width: 0 75px 115px 75px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+    </div>
+
     <script>
         const STORAGE_KEY = 'lobbies';
         function loadLobbies() {
@@ -98,7 +290,7 @@
             }
             return null;
         }
-        document.getElementById('nextButton').onclick = function() {
+        document.getElementById('nextButton').onclick = function () {
             const budget = document.getElementById('budgetInput').value.trim();
             const country = document.getElementById('countryInput').value.trim();
             const beginning = document.getElementById('beginningInput').value;
@@ -133,7 +325,7 @@
                 alert('Brak dostępnych kodów – spróbuj później.');
                 return;
             }
-            // Wyczy�� dane wyjazdu dla nowego lobby
+            // Wyczyść dane wyjazdu dla nowego lobby
             const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
             // Możesz tu dodać własną logikę generowania atrakcji na podstawie dat
             wyjazdKeys.push('powrot');
