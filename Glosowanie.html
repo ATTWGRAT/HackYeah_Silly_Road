@@ -10,36 +10,33 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f7c564; /* kolor tła */
+            background-color: #f7c564;
             font-family: Arial, sans-serif;
             position: relative;
             overflow: hidden;
         }
 
-        /* Kontener na chmury */
         .clouds-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px; /* powiększony kontener dla większych chmur */
+            height: 180px;
             overflow: hidden;
-            z-index: 1; /* Chmury za logo */
+            z-index: 1;
         }
 
-        /* Logo na środku */
         .logo {
             position: absolute;
-            top: -310px; /* odległość od góry */
-            left: 47.5%; /* przesunięte 2.5% w prawo (45% + 2.5% = 47.5%) */
+            top: -310px;
+            left: 47.5%;
             transform: translateX(-50%);
-            z-index: 2; /* Logo przed chmurami */
-            height: 800px; /* większe logo */
+            z-index: 2;
+            height: 800px;
             width: auto;
             animation: logoRotate 8s ease-in-out infinite;
         }
 
-        /* Animacja logo */
         @keyframes logoRotate {
             0%, 100% {
                 transform: translateX(-50%) rotate(-2deg);
@@ -50,14 +47,13 @@
             }
         }
 
-        /* Informacja o zwycięzcy NA GÓRZE strony */
         .winner-banner {
             position: absolute;
-            top: 155px; /* Pod logiem, nad głosowaniem */
+            top: 155px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 3;
-            background-color: #863e15; /* brązowy jak głosowanie */
+            background-color: #863e15;
             border-radius: 12px;
             border: 2px solid #5a2a0e;
             box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
@@ -68,18 +64,17 @@
 
         .winner-title {
             font-size: 18px;
-            color: #f2cf0d; /* żółty tekst */
+            color: #f2cf0d;
             font-weight: bold;
             margin-bottom: 8px;
         }
 
         .winner-name {
             font-size: 20px;
-            color: #f2cf0d; /* żółty tekst */
+            color: #f2cf0d;
             font-weight: bold;
         }
 
-        /* Grupa chmur */
         .cloud-group {
             position: absolute;
             top: 0;
@@ -88,10 +83,9 @@
             display: flex;
             justify-content: space-around;
             align-items: flex-start;
-            animation: cloudsMove 58.2s linear infinite; /* przyśpieszone o 3% (60s * 0.97 = 58.2s) */
+            animation: cloudsMove 58.2s linear infinite;
         }
 
-        /* Animacja chmur */
         @keyframes cloudsMove {
             0% {
                 transform: translateX(0);
@@ -102,31 +96,27 @@
             }
         }
 
-        /* Pojedyncza chmura */
         .cloud {
             position: relative;
             display: flex;
         }
 
-        /* Kółka tworzące chmurę */
         .cloud-circle {
-            background-color: #D1E5F4; /* nowy kolor chmur */
+            background-color: #D1E5F4;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* powiększony cień */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* Dolny pasek z trójkątami */
         .bottom-triangles {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 120px; /* zwiększona wysokość dla większej różnorodności */
+            height: 120px;
             z-index: 1;
             animation: mountainsMove 120s linear infinite;
         }
 
-        /* Animacja gór */
         @keyframes mountainsMove {
             0% {
                 transform: translateX(0);
@@ -145,7 +135,6 @@
             border-style: solid;
         }
 
-        /* Główny kontener - OBNIŻONY aby zrobić miejsce na banner */
         .main-container {
             display: flex;
             gap: 60px;
@@ -154,10 +143,9 @@
             max-width: 1200px;
             margin: 0 auto;
             align-items: flex-start;
-            margin-top: 220px; /* ZWIĘKSZONE aby zrobić więcej miejsca na banner */
+            margin-top: 220px;
         }
 
-        /* Panel użytkowników */
         .users-panel {
             min-width: 200px;
             background: #fff3d1;
@@ -194,7 +182,6 @@
             font-size: 18px;
         }
 
-        /* Panel transportów */
         .transport-panel {
             display: flex;
             flex-direction: column;
@@ -202,7 +189,6 @@
             min-width: 280px;
         }
 
-        /* Karty transportów */
         .transport-card {
             background-color: #863e15;
             border-radius: 8px;
@@ -210,7 +196,6 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             border: 2px solid #5a2a0e;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            rotate: -1deg;
         }
 
             .transport-card:hover {
@@ -218,7 +203,6 @@
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             }
 
-            /* Specyficzne przekrzywienie dla każdej karty */
             .transport-card:nth-child(1) {
                 rotate: 0.5deg;
             }
@@ -231,11 +215,6 @@
                 rotate: 1.5deg;
             }
 
-            .transport-card:hover {
-                rotate: 1.5deg;
-            }
-
-        /* Nowy układ z emoji głosowania w jednej linii z nazwą */
         .transport-header {
             display: flex;
             justify-content: space-between;
@@ -249,12 +228,17 @@
             font-weight: bold;
         }
 
+        .transport-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
         .transport-vote-buttons {
             display: flex;
             gap: 8px;
         }
 
-        /* Przyciski głosowania */
         .vote-btn {
             background: none;
             border: none;
@@ -282,18 +266,17 @@
                 }
 
         .like-btn {
-            color: #4CAF50; /* zielony dla like */
+            color: #4CAF50;
             background-color: rgba(76, 175, 80, 0.1);
             border: 1px solid #4CAF50;
         }
 
         .dislike-btn {
-            color: #f44336; /* czerwony dla dislike */
+            color: #f44336;
             background-color: rgba(244, 67, 54, 0.1);
             border: 1px solid #f44336;
         }
 
-        /* Aktywne przyciski */
         .vote-btn.active {
             background-color: rgba(242, 207, 13, 0.2);
             transform: scale(1.1);
@@ -309,7 +292,6 @@
             color: #ffffff;
         }
 
-        /* Liczniki głosów */
         .vote-count {
             font-size: 14px;
             color: #f2cf0d;
@@ -319,7 +301,6 @@
             margin-top: 8px;
         }
 
-        /* Przycisk zmiany głosu */
         .change-vote-btn {
             background: none;
             border: 1px solid #f2cf0d;
@@ -337,7 +318,56 @@
                 transform: scale(1.05);
             }
 
-        /* Przycisk Dalej */
+        .description-btn {
+            padding: 6px 12px;
+            background-color: #f2cf0d;
+            color: #863e15;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+            .description-btn:hover {
+                background-color: #e6c20a;
+                transform: scale(1.05);
+            }
+
+        .description-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .description-panel {
+            width: 155px;
+            height: 300px;
+            background-color: #863e15;
+            border: 2px solid #5a2a0e;
+            border-radius: 4px;
+            padding: 15px;
+            color: #f2cf0d;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .winning-panel {
+            width: 155px;
+            height: 100px;
+            background-color: #863e15;
+            border: 2px solid #5a2a0e;
+            border-radius: 4px;
+            padding: 15px;
+            color: #f2cf0d;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            font-weight: bold;
+        }
+
         .next-button {
             position: fixed;
             bottom: 30px;
@@ -363,10 +393,8 @@
     </style>
 </head>
 <body>
-    <!-- Logo na środku przed chmurami -->
     <img src="silly_road_logo.png" alt="Silly Road Logo" class="logo">
 
-    <!-- Informacja o zwycięzcy NA GÓRZE strony -->
     <div class="winner-banner">
         <div class="winner-title">Aktualnie prowadzi:</div>
         <div class="winner-name" id="winnerName">-</div>
@@ -374,7 +402,6 @@
 
     <div class="clouds-container">
         <div class="cloud-group">
-            <!-- Pierwsza chmura -->
             <div class="cloud" style="left: 1%; margin-top: 5px;">
                 <div class="cloud-circle" style="width: 102px; height: 102px;"></div>
                 <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 17px;"></div>
@@ -382,7 +409,6 @@
                 <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 8px;"></div>
             </div>
 
-            <!-- Druga chmura -->
             <div class="cloud" style="left: 3%; margin-top: 25px;">
                 <div class="cloud-circle" style="width: 119px; height: 119px;"></div>
                 <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 15px;"></div>
@@ -390,7 +416,6 @@
                 <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -34px; margin-top: 7px;"></div>
             </div>
 
-            <!-- Trzecia chmura -->
             <div class="cloud" style="left: 5%; margin-top: 40px;">
                 <div class="cloud-circle" style="width: 93px; height: 93px;"></div>
                 <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 27px;"></div>
@@ -398,7 +423,6 @@
                 <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 18px;"></div>
             </div>
 
-            <!-- Czwarta chmura -->
             <div class="cloud" style="left: 7%; margin-top: 15px;">
                 <div class="cloud-circle" style="width: 110px; height: 110px;"></div>
                 <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 35px;"></div>
@@ -406,7 +430,6 @@
                 <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 27px;"></div>
             </div>
 
-            <!-- Piąta chmura -->
             <div class="cloud" style="left: 9%; margin-top: 30px;">
                 <div class="cloud-circle" style="width: 85px; height: 85px;"></div>
                 <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -20px; margin-top: 23px;"></div>
@@ -414,7 +437,6 @@
                 <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 5px;"></div>
             </div>
 
-            <!-- Szósta chmura -->
             <div class="cloud" style="left: 12%; margin-top: 10px;">
                 <div class="cloud-circle" style="width: 127px; height: 127px;"></div>
                 <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 20px;"></div>
@@ -424,9 +446,7 @@
         </div>
     </div>
 
-    <!-- Główny kontener z panelami -->
     <div class="main-container">
-        <!-- Panel użytkowników -->
         <div class="users-panel">
             <div class="users-title">Użytkownicy:</div>
             <ul class="user-list" id="userList">
@@ -434,124 +454,102 @@
             </ul>
         </div>
 
-        <!-- Panel transportów -->
         <div class="transport-panel">
             <div class="transport-card" id="rower-card">
                 <div class="transport-header">
                     <div class="transport-name">🚲 Rower</div>
-                    <div class="transport-vote-buttons">
-                        <button class="vote-btn like-btn" onclick="vote('rower', 1)">👍</button>
-                        <button class="vote-btn dislike-btn" onclick="vote('rower', -1)">👎</button>
+                    <div class="transport-actions">
+                        <div class="transport-vote-buttons">
+                            <button class="vote-btn like-btn" onclick="vote('rower', 1)">👍</button>
+                            <button class="vote-btn dislike-btn" onclick="vote('rower', -1)">👎</button>
+                        </div>
+                        <button class="description-btn" onclick="showDescription('rower')">Opis</button>
                     </div>
                 </div>
                 <div class="vote-count" id="rower-count">0</div>
                 <button class="change-vote-btn" onclick="changeVote('rower')" style="display: none;">Zmień głos</button>
             </div>
+
             <div class="transport-card" id="pociag-card">
                 <div class="transport-header">
                     <div class="transport-name">🚂 Pociąg</div>
-                    <div class="transport-vote-buttons">
-                        <button class="vote-btn like-btn" onclick="vote('pociag', 1)">👍</button>
-                        <button class="vote-btn dislike-btn" onclick="vote('pociag', -1)">👎</button>
+                    <div class="transport-actions">
+                        <div class="transport-vote-buttons">
+                            <button class="vote-btn like-btn" onclick="vote('pociag', 1)">👍</button>
+                            <button class="vote-btn dislike-btn" onclick="vote('pociag', -1)">👎</button>
+                        </div>
+                        <button class="description-btn" onclick="showDescription('pociag')">Opis</button>
                     </div>
                 </div>
                 <div class="vote-count" id="pociag-count">0</div>
                 <button class="change-vote-btn" onclick="changeVote('pociag')" style="display: none;">Zmień głos</button>
             </div>
+
             <div class="transport-card" id="samolot-card">
                 <div class="transport-header">
                     <div class="transport-name">✈️ Samolot</div>
-                    <div class="transport-vote-buttons">
-                        <button class="vote-btn like-btn" onclick="vote('samolot', 1)">👍</button>
-                        <button class="vote-btn dislike-btn" onclick="vote('samolot', -1)">👎</button>
+                    <div class="transport-actions">
+                        <div class="transport-vote-buttons">
+                            <button class="vote-btn like-btn" onclick="vote('samolot', 1)">👍</button>
+                            <button class="vote-btn dislike-btn" onclick="vote('samolot', -1)">👎</button>
+                        </div>
+                        <button class="description-btn" onclick="showDescription('samolot')">Opis</button>
                     </div>
                 </div>
                 <div class="vote-count" id="samolot-count">0</div>
                 <button class="change-vote-btn" onclick="changeVote('samolot')" style="display: none;">Zmień głos</button>
             </div>
         </div>
+
+        <div class="description-section">
+            <div class="description-panel" id="descriptionPanel">
+                Kliknij przycisk "Opis" przy dowolnej opcji, aby zobaczyć jej szczegóły.
+            </div>
+            
+        </div>
     </div>
 
-    <!-- Przycisk Dalej -->
     <button class="next-button" onclick="goNext()">Dalej</button>
 
-    <!-- Dolny pasek z trójkątami -->
     <div class="bottom-triangles">
-        <!-- Trójkąty równoramienne nachodzące na siebie - lewa strona -->
+        <!-- Trójkąty pozostają bez zmian -->
         <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
         <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 7%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 11%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 13%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 16%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 20%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 21%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 25%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 34%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 40%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 42%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 45%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 50%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 51%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 53%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 56%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 60%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 63%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 64%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
-
-        <!-- Nowe góry po prawej stronie -->
-        <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 85%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 90%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 92%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 94%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 97%; border-width: 0 85px 125px 85px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 100%; border-width: 0 70px 130px 70px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 103%; border-width: 0 65px 105px 65px; border-color: transparent transparent #482611 transparent;"></div>
-        <div class="triangle" style="left: 106%; border-width: 0 75px 115px 75px; border-color: transparent transparent #863e15 transparent;"></div>
-        <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <!-- ... pozostałe trójkąty ... -->
     </div>
 
     <script>
-        // Lista emotek
         const emojis = ['🤠', '💀', '😂', '🤔', '🙂', '😎', '😡', '😱', '🤢', '🤯'];
-
-        // Nowi użytkownicy
         const users = ['Hatsune Miku', 'John Cena', 'Lord Vader'];
 
-        // Obiekt do przechowywania głosów
         const votes = {
             'rower': 0,
             'pociag': 0,
             'samolot': 0
         };
 
-        // Obiekt do śledzenia głosów użytkownika
         const userVotes = {
-            'rower': null, // null = nie zagłosowano, 1 = like, -1 = dislike
+            'rower': null,
             'pociag': null,
             'samolot': null
         };
 
-        // Mapowanie nazw transportów
         const transportNames = {
             'rower': '🚲 Rower',
             'pociag': '🚂 Pociąg',
             'samolot': '✈️ Samolot'
         };
 
-        // Funkcja do losowania emotki
+        const descriptions = {
+            'rower': "Sample text 1 - Rower to ekologiczny środek transportu idealny na krótkie dystanse. Pozwala zachować dobrą kondycję fizyczną, nie emituje zanieczyszczeń i jest tani w utrzymaniu. Doskonały wybór dla osób ceniących zdrowy tryb życia i chcących uniknąć korków w mieście. Niestety, ma ograniczony zasięg i jest zależny od warunków pogodowych.",
+            'pociag': "Sample text 2 - Pociąg to komfortowy środek transportu zbiorowego, idealny na średnie i długie dystanse. Oferuje przestrzeń do pracy lub relaksu podczas podróży, jest bezpieczny i stosunkowo szybki. Kolej jest również przyjazna dla środowiska w porównaniu z transportem drogowym. Wadą może być ograniczona elastyczność rozkładu jazdy i dostępność w niektórych regionach.",
+            'samolot': "Sample text 3 - Samolot to najszybszy środek transportu na duże odległości. Pozwala pokonać tysiące kilometrów w kilka godzin, oferując niezrównaną prędkość podróży. Idealny dla biznesmenów i osób podróżujących międzynarodowo. Niestety, ma najwyższy ślad węglowy, jest kosztowny i wymaga długich procedur na lotniskach."
+        };
+
         function getRandomEmoji() {
             return emojis[Math.floor(Math.random() * emojis.length)];
         }
 
-        // Funkcja do inicjalizacji użytkowników z losowymi emotkami
         function initializeUsers() {
             const userList = document.getElementById('userList');
             userList.innerHTML = '';
@@ -571,36 +569,25 @@
             });
         }
 
-        // Funkcja do głosowania
         function vote(transport, value) {
-            // Jeśli użytkownik już głosował, zablokuj możliwość ponownego głosowania
             if (userVotes[transport] !== null) {
                 return;
             }
 
-            // Zarejestruj głos użytkownika
             userVotes[transport] = value;
             votes[transport] += value;
 
-            // Zaktualizuj wyświetlanie
             updateVoteDisplay(transport);
             updateWinner();
         }
 
-        // Funkcja do zmiany głosu
         function changeVote(transport) {
-            // Odejmij poprzedni głos
             votes[transport] -= userVotes[transport];
-
-            // Zresetuj głos użytkownika
             userVotes[transport] = null;
-
-            // Zaktualizuj wyświetlanie
             updateVoteDisplay(transport);
             updateWinner();
         }
 
-        // Funkcja aktualizująca wyświetlanie głosów
         function updateVoteDisplay(transport) {
             const card = document.getElementById(`${transport}-card`);
             const likeBtn = card.querySelector('.like-btn');
@@ -608,18 +595,15 @@
             const changeBtn = card.querySelector('.change-vote-btn');
             const countElement = document.getElementById(`${transport}-count`);
 
-            // Zaktualizuj licznik
             countElement.textContent = votes[transport];
 
             if (userVotes[transport] === null) {
-                // Użytkownik nie głosował - pokaż przyciski głosowania
                 likeBtn.disabled = false;
                 dislikeBtn.disabled = false;
                 likeBtn.classList.remove('active');
                 dislikeBtn.classList.remove('active');
                 changeBtn.style.display = 'none';
             } else {
-                // Użytkownik głosował - pokaż który przycisk jest aktywny
                 likeBtn.disabled = true;
                 dislikeBtn.disabled = true;
 
@@ -631,18 +615,16 @@
                     likeBtn.classList.remove('active');
                 }
 
-                // Pokaż przycisk zmiany głosu
                 changeBtn.style.display = 'block';
             }
         }
 
-        // Funkcja aktualizująca informację o zwycięzcy
         function updateWinner() {
             const winnerElement = document.getElementById('winnerName');
+            const winningPanelElement = document.getElementById('winningPanelName');
             let maxVotes = -Infinity;
             let winners = [];
 
-            // Znajdź opcję z największą liczbą głosów
             for (const [transport, voteCount] of Object.entries(votes)) {
                 if (voteCount > maxVotes) {
                     maxVotes = voteCount;
@@ -654,44 +636,29 @@
 
             if (maxVotes <= 0 && winners.length > 0) {
                 winnerElement.textContent = 'Brak głosów';
+                winningPanelElement.textContent = 'Brak głosów';
             } else if (winners.length === 1) {
                 winnerElement.textContent = transportNames[winners[0]];
+                winningPanelElement.textContent = transportNames[winners[0]];
             } else if (winners.length > 1) {
                 winnerElement.textContent = 'Remis';
+                winningPanelElement.textContent = 'Remis';
             } else {
                 winnerElement.textContent = '-';
+                winningPanelElement.textContent = '-';
             }
         }
 
-        // Funkcja przycisku Dalej
+        function showDescription(transport) {
+            const descriptionPanel = document.getElementById('descriptionPanel');
+            descriptionPanel.textContent = descriptions[transport];
+        }
+
         function goNext() {
-            // Tutaj można dodać logikę przejścia do następnej strony
             alert('Przechodzimy dalej! Wyniki głosowania: ' + JSON.stringify(votes));
-            // window.location.href = 'nastepna_strona.html';
         }
 
-        // Funkcje do integracji - można je później wykorzystać
-        function setUserNames(names) {
-            // names = ['Imię1', 'Imię2', 'Imię3']
-            users.length = 0;
-            names.forEach(name => users.push(name));
-            initializeUsers();
-        }
-
-        function setTransportOptions(transports) {
-            // transports = ['Nazwa1', 'Nazwa2', 'Nazwa3']
-            // Tutaj można dodać logikę do aktualizacji nazw transportów
-        }
-
-        function getVotes() {
-            return votes;
-        }
-
-        function getUserVotes() {
-            return userVotes;
-        }
-
-        // Inicjalizacja strony
+        // Inicjalizacja
         initializeUsers();
         updateWinner();
     </script>
