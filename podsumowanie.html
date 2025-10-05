@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Silly road - Podsumowanie</title>
+    <style>
+        body { margin: 0; height: 100vh; background: #f7c564; font-family: Arial, sans-serif; }
+        .container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff3d1; border-radius: 12px; border: 2px solid #5a2a0e; box-shadow: 0 8px 18px rgba(0,0,0,0.12); padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 18px; min-width: 320px; }
+        .summary-label { font-size: 22px; color: #5a2a0e; font-weight: bold; margin-bottom: 8px; }
+        .summary-item { font-size: 20px; color: #863e15; margin-bottom: 6px; }
+        .button { padding: 12px 32px; font-size: 22px; color: #f2cf0d; background: #863e15; border-radius: 4px; border: 2px solid #5a2a0e; font-weight: bold; box-shadow: 0 8px 18px rgba(0,0,0,0.12); cursor: pointer; margin-top: 18px; }
+        .button:hover { background: #5a2a0e; }
+    </style>
+</head>
+<body>
+    <div class="container" id="summaryContainer">
+        <div class="summary-label">Podsumowanie wyjazdu</div>
+        <!-- Dynamiczne podsumowanie -->
+    </div>
+    <script>
+        function showSummary() {
+            const container = document.getElementById('summaryContainer');
+            let lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
+            let code = lobby ? lobby.code : '';
+            const budgetStart = parseFloat(lobby ? lobby.budget : sessionStorage.getItem('lobbyBudget'));
+            const country = lobby ? lobby.country : sessionStorage.getItem('lobbyCountry') || '';
+            const length = lobby ? lobby.length : sessionStorage.getItem('lobbyLength') || '';
+            let budget = budgetStart;
+            container.innerHTML += `<div class='summary-item'><b>Kwota poczatkowa:</b> ${budgetStart}</div>`;
+            container.innerHTML += `<div class='summary-item'><b>Kraj:</b> ${country}</div>`;
+            container.innerHTML += `<div class='summary-item'><b>Dlugosc wyjazdu:</b> ${length}</div>`;
+            const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
+            let attractionsCount = 2;
+            if (!isNaN(parseInt(length, 10)) && parseInt(length, 10) > 2) {
+                attractionsCount += (parseInt(length, 10) - 2) * 3;
+            }
+            for (let i = 1; i <= attractionsCount; i++) {
+                wyjazdKeys.push(`atrakcja${i}`);
+            }
+            wyjazdKeys.push('powrot');
+            wyjazdKeys.forEach(key => {
+                const val = sessionStorage.getItem(`wyjazd_${code}_${key}`);
+                const cost = sessionStorage.getItem(`wyjazd_${code}_${key}_koszt`);
+                if (val) {
+                    let label = key.charAt(0).toUpperCase() + key.slice(1);
+                    if (key.startsWith('atrakcja')) label = 'Atrakcja ' + key.replace('atrakcja','');
+                    container.innerHTML += `<div class='summary-item'><b>${label}:</b> ${val}` + (cost ? ` <span style='color:#5a2a0e;'>(Koszt: ${cost})</span>` : '') + `</div>`;
+                    if (cost && !isNaN(parseFloat(cost))) budget -= parseFloat(cost);
+                }
+            });
+            container.innerHTML += `<div class='summary-item'><b>Pozostala kwota:</b> ${budget.toFixed(2)}</div>`;
+            const btn = document.createElement('button');
+            btn.className = 'button';
+            btn.textContent = 'Powrot do startu';
+            btn.onclick = function() {
+                window.location.href = 'start.html';
+            };
+            container.appendChild(btn);
+        }
+        showSummary();
+    </script>
+</body>
+</html>
