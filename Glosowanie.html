@@ -16,6 +16,21 @@
             overflow: hidden;
         }
 
+        .normal-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #8B4513; /* brązowy kolor */
+            color: #f2cf0d;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
         .clouds-container {
             position: absolute;
             top: 0;
@@ -393,6 +408,9 @@
     </style>
 </head>
 <body>
+    <!-- Dodana informacja "Normal😐" -->
+    <div class="normal-info">Normal😐</div>
+
     <img src="silly_road_logo.png" alt="Silly Road Logo" class="logo">
 
     <div class="winner-banner">
@@ -505,17 +523,51 @@
             <div class="description-panel" id="descriptionPanel">
                 Kliknij przycisk "Opis" przy dowolnej opcji, aby zobaczyć jej szczegóły.
             </div>
-            
+
         </div>
     </div>
 
     <button class="next-button" onclick="goNext()">Dalej</button>
 
     <div class="bottom-triangles">
-        <!-- Trójkąty pozostają bez zmian -->
         <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
         <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
-        <!-- ... pozostałe trójkąty ... -->
+        <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 7%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 11%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 13%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 16%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 20%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 21%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 25%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 34%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 40%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 42%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 45%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 50%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 51%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 53%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 56%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 60%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 63%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 64%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+
+        <!-- Nowe góry po prawej stronie -->
+        <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 85%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 90%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 92%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 94%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 97%; border-width: 0 85px 125px 85px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 100%; border-width: 0 70px 130px 70px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 103%; border-width: 0 65px 105px 65px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 106%; border-width: 0 75px 115px 75px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
     </div>
 
     <script>
