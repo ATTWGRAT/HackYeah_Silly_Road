@@ -35,7 +35,6 @@ document.getElementById('joinButton').onclick = function() {
         alert('Lobby o podanym kodzie nie istnieje.');
         return;
     }
-    // Dodaj uzytkownika do listy jesli go nie ma
     if (!lobby.users) lobby.users = [];
     if (!lobby.users.includes(userName)) {
         lobby.users.push(userName);
@@ -43,11 +42,5 @@ document.getElementById('joinButton').onclick = function() {
     }
     sessionStorage.setItem('currentLobby', JSON.stringify(lobby));
     sessionStorage.setItem('userName', userName);
-    window.location.href = `lobby.html?code=${encodeURIComponent(entered)}`;
-};
-document.getElementById('backButton').onclick = function() {
-    window.location.href = 'start.html';
-};
-document.getElementById('createLobby').onclick = function() {
-    window.location.href = 'dane_lobby.html';
-};
+    // SprawdŸ, które dane wyjazdu s¹ puste
+    const wy

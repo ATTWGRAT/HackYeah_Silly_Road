@@ -59,9 +59,9 @@
 </head>
 <body>
     <div class="container">
-        <input type="text" class="text-input" id="budgetInput" placeholder="Budzet">
-        <input type="text" class="text-input" id="countryInput" placeholder="Kraj">
-        <input type="text" class="text-input" id="lengthInput" placeholder="Dlugosc wyjazdu">
+        <input type="number" class="text-input" id="budgetInput" placeholder="Budzet" min="0" step="1">
+        <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+">
+        <input type="number" class="text-input" id="lengthInput" placeholder="Dlugosc wyjazdu" min="2" step="1">
         <button class="button" id="nextButton">Dalej</button>
     </div>
     <script>
@@ -96,6 +96,18 @@
                 alert('Wypelnij wszystkie pola!');
                 return;
             }
+            if (!/^\d+$/.test(budget)) {
+                alert('Budzet musi byc liczb¹!');
+                return;
+            }
+            if (!/^\d+$/.test(length) || parseInt(length,10) < 2) {
+                alert('Dlugosc wyjazdu musi byc liczb¹ nie mniejsz¹ ni¿ 2!');
+                return;
+            }
+            if (!/^[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+$/.test(country)) {
+                alert('Kraj mo¿e zawieraæ tylko litery!');
+                return;
+            }
             sessionStorage.setItem('lobbyBudget', budget);
             sessionStorage.setItem('lobbyCountry', country);
             sessionStorage.setItem('lobbyLength', length);
@@ -107,6 +119,19 @@
                 alert('Brak dostêpnych kodów — spróbuj póŸniej.');
                 return;
             }
+            // Wyczyœæ dane wyjazdu dla nowego lobby
+            const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
+            let len = parseInt(length, 10);
+            if (isNaN(len) || len < 2) len = 2;
+            let attractionsCount = 2 + (len - 2) * 3;
+            for (let i = 1; i <= attractionsCount; i++) {
+                wyjazdKeys.push(`atrakcja${i}`);
+            }
+            wyjazdKeys.push('powrot');
+            wyjazdKeys.forEach(key => {
+                sessionStorage.removeItem(`wyjazd_${code}_${key}`);
+                sessionStorage.removeItem(`wyjazd_${code}_${key}_koszt`);
+            });
             const createdAt = new Date().toISOString();
             const lobby = {
                 code,

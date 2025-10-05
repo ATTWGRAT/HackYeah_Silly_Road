@@ -17,10 +17,12 @@
         <!-- Dynamiczne pola krok po kroku -->
     </div>
     <script>
-        let length = parseInt(sessionStorage.getItem('lobbyLength'), 10);
+        let lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
+        let code = lobby ? lobby.code : '';
+        let length = parseInt(lobby ? lobby.length : sessionStorage.getItem('lobbyLength'), 10);
         if (isNaN(length) || length < 2) length = 2;
         sessionStorage.setItem('lobbyLength', length);
-        let budget = parseFloat(sessionStorage.getItem('lobbyBudget'));
+        let budget = parseFloat(lobby ? lobby.budget : sessionStorage.getItem('lobbyBudget'));
         if (isNaN(budget)) budget = 0;
         const attractionsCount = 2 + (length - 2) * 3;
         const steps = [
@@ -31,7 +33,7 @@
             steps.push({ key: `atrakcja${i}`, label: `Atrakcja ${i}` });
         }
         steps.push({ key: 'powrot', label: 'Powrot' });
-        let currentStep = 0;
+        let currentStep = parseInt(sessionStorage.getItem('wyjazd_step') || '0', 10);
         const stepContainer = document.getElementById('stepContainer');
         function renderStep() {
             stepContainer.innerHTML = '';
@@ -43,7 +45,7 @@
             input.className = 'text-input';
             input.id = 'stepInput';
             input.placeholder = step.label;
-            input.value = sessionStorage.getItem('wyjazd_' + step.key) || '';
+            input.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}`) || '';
             stepContainer.appendChild(label);
             stepContainer.appendChild(input);
             // Pole kosztu
@@ -57,7 +59,7 @@
             costInput.min = '0';
             costInput.step = '0.01';
             costInput.placeholder = 'Koszt';
-            costInput.value = sessionStorage.getItem('wyjazd_' + step.key + '_koszt') || '';
+            costInput.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}_koszt`) || '';
             stepContainer.appendChild(costLabel);
             stepContainer.appendChild(costInput);
             // Pokaz aktualna kwote
@@ -84,14 +86,16 @@
                     alert('Brak wystarczajacej kwoty!');
                     return;
                 }
-                sessionStorage.setItem('wyjazd_' + step.key, val);
-                sessionStorage.setItem('wyjazd_' + step.key + '_koszt', cost.toFixed(2));
+                sessionStorage.setItem(`wyjazd_${code}_${step.key}`, val);
+                sessionStorage.setItem(`wyjazd_${code}_${step.key}_koszt`, cost.toFixed(2));
                 budget -= cost;
                 sessionStorage.setItem('lobbyBudget', budget.toFixed(2));
                 if (currentStep < steps.length - 1) {
                     currentStep++;
+                    sessionStorage.setItem('wyjazd_step', currentStep);
                     renderStep();
                 } else {
+                    sessionStorage.removeItem('wyjazd_step');
                     window.location.href = 'podsumowanie.html';
                 }
             };

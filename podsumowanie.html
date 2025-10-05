@@ -20,15 +20,15 @@
     <script>
         function showSummary() {
             const container = document.getElementById('summaryContainer');
-            // Dane lobby
-            const budgetStart = parseFloat(sessionStorage.getItem('lobbyBudget'));
-            const country = sessionStorage.getItem('lobbyCountry') || '';
-            const length = sessionStorage.getItem('lobbyLength') || '';
+            let lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
+            let code = lobby ? lobby.code : '';
+            const budgetStart = parseFloat(lobby ? lobby.budget : sessionStorage.getItem('lobbyBudget'));
+            const country = lobby ? lobby.country : sessionStorage.getItem('lobbyCountry') || '';
+            const length = lobby ? lobby.length : sessionStorage.getItem('lobbyLength') || '';
             let budget = budgetStart;
             container.innerHTML += `<div class='summary-item'><b>Kwota poczatkowa:</b> ${budgetStart}</div>`;
             container.innerHTML += `<div class='summary-item'><b>Kraj:</b> ${country}</div>`;
             container.innerHTML += `<div class='summary-item'><b>Dlugosc wyjazdu:</b> ${length}</div>`;
-            // Dane wyjazdu
             const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
             let attractionsCount = 2;
             if (!isNaN(parseInt(length, 10)) && parseInt(length, 10) > 2) {
@@ -39,8 +39,8 @@
             }
             wyjazdKeys.push('powrot');
             wyjazdKeys.forEach(key => {
-                const val = sessionStorage.getItem('wyjazd_' + key);
-                const cost = sessionStorage.getItem('wyjazd_' + key + '_koszt');
+                const val = sessionStorage.getItem(`wyjazd_${code}_${key}`);
+                const cost = sessionStorage.getItem(`wyjazd_${code}_${key}_koszt`);
                 if (val) {
                     let label = key.charAt(0).toUpperCase() + key.slice(1);
                     if (key.startsWith('atrakcja')) label = 'Atrakcja ' + key.replace('atrakcja','');
@@ -49,7 +49,6 @@
                 }
             });
             container.innerHTML += `<div class='summary-item'><b>Pozostala kwota:</b> ${budget.toFixed(2)}</div>`;
-            // Przycisk powrotu do strony startowej
             const btn = document.createElement('button');
             btn.className = 'button';
             btn.textContent = 'Powrot do startu';
