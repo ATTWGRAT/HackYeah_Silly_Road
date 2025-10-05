@@ -12,6 +12,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .clouds-container {
             position: absolute;
             top: 0;
@@ -21,6 +22,7 @@
             overflow: hidden;
             z-index: 1;
         }
+
         .logo {
             position: absolute;
             top: -310px;
@@ -31,10 +33,17 @@
             width: auto;
             animation: logoRotate 8s ease-in-out infinite;
         }
+
         @keyframes logoRotate {
-            0%, 100% { transform: translateX(-50%) rotate(-2deg); }
-            50% { transform: translateX(-50%) rotate(2deg); }
+            0%, 100% {
+                transform: translateX(-50%) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateX(-50%) rotate(2deg);
+            }
         }
+
         .cloud-group {
             position: absolute;
             top: 0;
@@ -45,16 +54,28 @@
             align-items: flex-start;
             animation: cloudsMove 58.2s linear infinite;
         }
+
         @keyframes cloudsMove {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100px); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100px);
+            }
         }
-        .cloud { position: relative; display: flex; }
+
+        .cloud {
+            position: relative;
+            display: flex;
+        }
+
         .cloud-circle {
             background-color: #D1E5F4;
             border-radius: 50%;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
+
         .container {
             position: absolute;
             top: 50%;
@@ -66,6 +87,7 @@
             align-items: center;
             gap: 18px;
         }
+
         .lobby-code {
             font-size: 32px;
             color: #f2cf0d;
@@ -79,6 +101,7 @@
             rotate: -2deg;
             letter-spacing: 2px;
         }
+
         .button {
             padding: 15px 45px;
             font-size: 25px;
@@ -92,12 +115,14 @@
             transition: transform 0.3s, background 0.3s, box-shadow 0.3s, rotate 0.3s;
             cursor: pointer;
         }
-        .button:hover {
-            background-color: #5a2a0e;
-            transform: scale(1.05);
-            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6);
-            rotate: 2.5deg;
-        }
+
+            .button:hover {
+                background-color: #5a2a0e;
+                transform: scale(1.05);
+                box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6);
+                rotate: 2.5deg;
+            }
+
         .bottom-triangles {
             position: absolute;
             bottom: 0;
@@ -107,10 +132,17 @@
             z-index: 1;
             animation: mountainsMove 120s linear infinite;
         }
+
         @keyframes mountainsMove {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(100px); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100px);
+            }
         }
+
         .triangle {
             position: absolute;
             bottom: 0;
@@ -212,43 +244,75 @@
         <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
     </div>
     <script>
+        // Lista dostępnych emotek
+        const availableEmojis = ['🤠', '💀', '😂', '🤔', '🙂', '😎', '😡', '😱', '🤢', '🤯'];
+
+        // Mapa do przechowywania przypisanych emotek dla użytkowników
+        let userEmojis = new Map();
+
         function getLobbyCodeFromUrl() {
             const params = new URLSearchParams(window.location.search);
             return params.get('code') || '----';
         }
+
         document.getElementById('lobbyCodeDisplay').textContent = 'Kod lobby: ' + getLobbyCodeFromUrl();
-        document.getElementById('backButton').onclick = function() {
+
+        document.getElementById('backButton').onclick = function () {
             window.location.href = 'start.html';
         };
-        // Wy�wietlanie listy u�ytkownik�w
+
+        // Funkcja do przypisywania emotek użytkownikom
+        function assignEmojisToUsers(users) {
+            const shuffledEmojis = [...availableEmojis].sort(() => Math.random() - 0.5);
+            userEmojis.clear();
+
+            users.forEach((user, index) => {
+                const emoji = shuffledEmojis[index % shuffledEmojis.length];
+                userEmojis.set(user, emoji);
+            });
+        }
+
+        // Wyświetlanie listy użytkowników
         function renderUserList() {
             let lobby = null;
             try {
                 lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
-            } catch {}
+            } catch { }
+
             const userList = document.getElementById('userList');
             userList.innerHTML = '';
+
             if (lobby && lobby.users && Array.isArray(lobby.users)) {
+                // Przypisz emotki użytkownikom
+                assignEmojisToUsers(lobby.users);
+
                 lobby.users.forEach(u => {
                     const li = document.createElement('li');
-                    li.textContent = u;
+                    li.textContent = `${userEmojis.get(u)} ${u}`;
+                    li.style.marginBottom = '8px';
                     userList.appendChild(li);
                 });
             } else if (lobby && lobby.owner) {
+                // Przypisz emotki dla pojedynczego użytkownika (właściciela)
+                assignEmojisToUsers([lobby.owner]);
+
                 const li = document.createElement('li');
-                li.textContent = lobby.owner;
+                li.textContent = `${userEmojis.get(lobby.owner)} ${lobby.owner}`;
+                li.style.marginBottom = '8px';
                 userList.appendChild(li);
             } else {
                 const li = document.createElement('li');
-                li.textContent = 'Brak u�ytkownik�w';
+                li.textContent = 'Brak użytkowników';
                 userList.appendChild(li);
             }
         }
+
         renderUserList();
+
         // Przycisk start
-        document.getElementById('startButton').onclick = function() {
+        document.getElementById('startButton').onclick = function () {
             window.location.href = 'dane_wyjazdu.html';
         };
     </script>
 </body>
-</html></html>
+</html>
