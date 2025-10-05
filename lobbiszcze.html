@@ -10,36 +10,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f7c564; /* kolor tła */
+            background-color: #f7c564; 
             font-family: Arial, sans-serif;
             position: relative;
             overflow: hidden;
         }
 
-        /* Kontener na chmury */
+        
         .clouds-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px; /* powiększony kontener dla większych chmur */
+            height: 180px; 
             overflow: hidden;
-            z-index: 1; /* Chmury za logo */
+            z-index: 1;
         }
 
-        /* Logo na środku */
+     
         .logo {
             position: absolute;
-            top: -310px; /* odległość od góry */
-            left: 47.5%; /* przesunięte 5% w lewo (50% - 5% = 45%) */
+            top: -310px; 
+            left: 47.5%; 
             transform: translateX(-50%);
-            z-index: 2; /* Logo przed chmurami */
-            height: 800px; /* większe logo */
+            z-index: 2; 
+            height: 800px; 
             width: auto;
             animation: logoRotate 8s ease-in-out infinite;
         }
 
-        /* Animacja logo */
+     
         @keyframes logoRotate {
             0%, 100% {
                 transform: translateX(-50%) rotate(-2deg);
@@ -50,7 +50,7 @@
             }
         }
 
-        /* Grupa chmur */
+     
         .cloud-group {
             position: absolute;
             top: 0;
@@ -59,10 +59,10 @@
             display: flex;
             justify-content: space-around;
             align-items: flex-start;
-            animation: cloudsMove 58.2s linear infinite; /* przyśpieszone o 3% (60s * 0.97 = 58.2s) */
+            animation: cloudsMove 58.2s linear infinite; 
         }
 
-        /* Animacja chmur */
+       
         @keyframes cloudsMove {
             0% {
                 transform: translateX(0);
@@ -73,31 +73,31 @@
             }
         }
 
-        /* Pojedyncza chmura */
+        
         .cloud {
             position: relative;
             display: flex;
         }
 
-        /* Kółka tworzące chmurę */
+        
         .cloud-circle {
-            background-color: #D1E5F4; /* nowy kolor chmur */
+            background-color: #D1E5F4; 
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* powiększony cień */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); 
         }
 
-        /* Dolny pasek z trójkątami */
+        
         .bottom-triangles {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 120px; /* zwiększona wysokość dla większej różnorodności */
+            height: 120px; 
             z-index: 1;
             animation: mountainsMove 120s linear infinite;
         }
 
-        /* Animacja gór */
+     
         @keyframes mountainsMove {
             0% {
                 transform: translateX(0);
@@ -118,30 +118,30 @@
 
         .container {
             text-align: center;
-            z-index: 3; /* Przyciski na wierzchniej warstwie */
+            z-index: 3; 
             position: relative;
         }
 
         a.button {
             display: inline-block;
-            margin: 40px; /* większy margines między przyciskami */
-            padding: 15px 45px; /* kształt bardziej jak deska */
-            font-size: 25px; /* powiększony tekst o 25% (20px * 1.25 = 25px) */
-            color: #f2cf0d; /* nowy kolor tekstu */
-            background-color: #863e15; /* kolor przycisku */
-            border-radius: 4px; /* mniej zaokrąglone rody - bardziej jak deska */
+            margin: 40px; 
+            padding: 15px 45px; 
+            font-size: 25px; 
+            color: #f2cf0d; 
+            background-color: #863e15; 
+            border-radius: 4px; 
             text-decoration: none;
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
             position: relative;
             overflow: hidden;
-            z-index: 4; /* Przyciski na najwyższej warstwie */
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* większy cień dla przycisków */
-            border: 2px solid #5a2a0e; /* obramowanie dla efektu deski */
+            z-index: 4; 
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); 
+            border: 2px solid #5a2a0e; 
             font-weight: bold;
-            rotate: -1deg; /* lekkie przekrzywienie */
+            rotate: -1deg; 
         }
 
-        /* Specyficzne przekrzywienie dla każdego przycisku */
+        
         #sillyButton {
             rotate: -1.5deg;
         }
@@ -153,10 +153,10 @@
         a.button:hover {
             background-color: #5a2a0e;
             transform: scale(1.05);
-            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6); /* jeszcze większy cień przy hover */
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6); 
         }
 
-        /* Zwiększone przekrzywienie przy hover */
+        
         #sillyButton:hover {
             rotate: -3deg;
         }
@@ -165,16 +165,16 @@
             rotate: 2.5deg;
         }
 
-        /* Emotki wypadające */
+       
         .emoji {
             position: absolute;
-            font-size: 28px; /* mniejsze emotki */
+            font-size: 28px; 
             pointer-events: none;
             opacity: 0;
             z-index: 10;
         }
 
-        /* Animacje eksplozji */
+        
         @keyframes explode1 {
             0% {
                 transform: translate(0, 0) scale(1) rotate(0deg);
