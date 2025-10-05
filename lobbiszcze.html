@@ -335,8 +335,8 @@
     </div>
 
     <div class="container">
-        <a href="silly.html" class="button" id="sillyButton">Silly</a>
-        <a href="normal.html" class="button" id="normalButton">Normal</a>
+    <a href="#" class="button" id="sillyButton">Silly</a>
+    <a href="#" class="button" id="normalButton">Normal</a>
     </div>
 
     <!-- Dolny pasek z trójkątami -->
@@ -397,11 +397,15 @@
             });
 
             button.addEventListener('click', function (e) {
+                e.preventDefault();
                 if (e.target.id === 'sillyButton') {
                     createExplosion(e.target, sillyEmojis);
                 } else {
                     createExplosion(e.target, normalEmojis);
                 }
+                setTimeout(function() {
+                    window.location.href = 'dane_lobby.html';
+                }, 400); // krótka zwłoka na animację
             });
         });
 

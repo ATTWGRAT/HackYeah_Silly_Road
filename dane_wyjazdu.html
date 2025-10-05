@@ -17,10 +17,28 @@
         <!-- Dynamiczne pola krok po kroku -->
     </div>
     <script>
-        let lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
+        let lobby = null;
+        try {
+            lobby = JSON.parse(sessionStorage.getItem('currentLobby'));
+        } catch {}
         let code = lobby ? lobby.code : '';
-        let length = parseInt(lobby ? lobby.length : sessionStorage.getItem('lobbyLength'), 10);
-        if (isNaN(length) || length < 2) length = 2;
+        // Wylicz liczbę dni na podstawie beginning i end
+        let beginning = lobby ? lobby.beginning : sessionStorage.getItem('lobbyBeginning');
+        let end = lobby ? lobby.end : sessionStorage.getItem('lobbyEnd');
+        let length = 2;
+        let errorMsg = '';
+        if (!beginning || !end) {
+            errorMsg = 'Brak danych o dacie wyjazdu. Wróć do tworzenia lobby.';
+        } else {
+            const beginDate = new Date(beginning);
+            const endDate = new Date(end);
+            const diff = Math.floor((endDate - beginDate) / (1000 * 60 * 60 * 24));
+            if (isNaN(diff) || diff < 1) {
+                errorMsg = 'Daty wyjazdu są nieprawidłowe. Wróć do tworzenia lobby.';
+            } else {
+                length = diff + 1;
+            }
+        }
         sessionStorage.setItem('lobbyLength', length);
         let budget = parseFloat(lobby ? lobby.budget : sessionStorage.getItem('lobbyBudget'));
         if (isNaN(budget)) budget = 0;
@@ -36,11 +54,16 @@
         let currentStep = parseInt(sessionStorage.getItem('wyjazd_step') || '0', 10);
         const stepContainer = document.getElementById('stepContainer');
         function renderStep() {
+            if (errorMsg) {
+                stepContainer.innerHTML = '<div style="color:#b30000;font-size:20px;font-weight:bold;text-align:center;">' + errorMsg + '</div>';
+                return;
+            }
             stepContainer.innerHTML = '';
             const step = steps[currentStep];
             const label = document.createElement('div');
             label.className = 'step-label';
             label.textContent = step.label;
+            // Pole na nazwę
             const input = document.createElement('input');
             input.className = 'text-input';
             input.id = 'stepInput';
@@ -62,6 +85,38 @@
             costInput.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}_koszt`) || '';
             stepContainer.appendChild(costLabel);
             stepContainer.appendChild(costInput);
+            // Pole na opis
+            const descLabel = document.createElement('div');
+            descLabel.className = 'step-label';
+            descLabel.textContent = 'Opis';
+            const desc = document.createElement('textarea');
+            desc.className = 'text-input';
+            desc.style.resize = 'none';
+            desc.style.minHeight = '40px';
+            desc.style.maxHeight = '300px';
+            desc.maxLength = 500;
+            desc.id = 'descInput';
+            desc.placeholder = 'Dodaj opis...';
+            desc.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}_desc`) || '';
+            // Licznik znaków
+            const counter = document.createElement('div');
+            counter.style.fontSize = '14px';
+            counter.style.color = '#5a2a0e';
+            counter.style.alignSelf = 'flex-end';
+            counter.textContent = `${desc.value.length}/500 znaków`;
+            desc.addEventListener('input', function() {
+                desc.style.height = 'auto';
+                desc.style.height = (desc.scrollHeight) + 'px';
+                counter.textContent = `${desc.value.length}/500 znaków`;
+            });
+            // Ustaw początkową wysokość
+            setTimeout(() => {
+                desc.style.height = 'auto';
+                desc.style.height = (desc.scrollHeight) + 'px';
+            }, 0);
+            stepContainer.appendChild(descLabel);
+            stepContainer.appendChild(desc);
+            stepContainer.appendChild(counter);
             // Pokaz aktualna kwote
             const budgetInfo = document.createElement('div');
             budgetInfo.className = 'step-label';
@@ -72,10 +127,15 @@
             btn.textContent = currentStep < steps.length - 1 ? 'Dalej' : 'Zakoncz';
             btn.onclick = function() {
                 const val = input.value.trim();
+                const descVal = desc.value.trim();
                 const costVal = costInput.value.trim();
                 const cost = parseFloat(costVal);
                 if (!val || costVal === '') {
                     alert('Wypelnij pole i koszt!');
+                    return;
+                }
+                if (descVal.length > 500) {
+                    alert('Opis nie może przekraczać 500 znaków!');
                     return;
                 }
                 if (isNaN(cost) || cost < 0) {
@@ -87,6 +147,7 @@
                     return;
                 }
                 sessionStorage.setItem(`wyjazd_${code}_${step.key}`, val);
+                sessionStorage.setItem(`wyjazd_${code}_${step.key}_desc`, descVal);
                 sessionStorage.setItem(`wyjazd_${code}_${step.key}_koszt`, cost.toFixed(2));
                 budget -= cost;
                 sessionStorage.setItem('lobbyBudget', budget.toFixed(2));
