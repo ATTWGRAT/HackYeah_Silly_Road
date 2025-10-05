@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>System głosowania</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7c564; /* kolor tła */
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Kontener na chmury */
+        .clouds-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px; /* powiększony kontener dla większych chmur */
+            overflow: hidden;
+            z-index: 1; /* Chmury za logo */
+        }
+
+        /* Logo na środku */
+        .logo {
+            position: absolute;
+            top: -310px; /* odległość od góry */
+            left: 47.5%; /* przesunięte 2.5% w prawo (45% + 2.5% = 47.5%) */
+            transform: translateX(-50%);
+            z-index: 2; /* Logo przed chmurami */
+            height: 800px; /* większe logo */
+            width: auto;
+            animation: logoRotate 8s ease-in-out infinite;
+        }
+
+        /* Animacja logo */
+        @keyframes logoRotate {
+            0%, 100% {
+                transform: translateX(-50%) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateX(-50%) rotate(2deg);
+            }
+        }
+
+        /* Informacja o zwycięzcy NA GÓRZE strony */
+        .winner-banner {
+            position: absolute;
+            top: 155px; /* Pod logiem, nad głosowaniem */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            background-color: #863e15; /* brązowy jak głosowanie */
+            border-radius: 12px;
+            border: 2px solid #5a2a0e;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .winner-title {
+            font-size: 18px;
+            color: #f2cf0d; /* żółty tekst */
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .winner-name {
+            font-size: 20px;
+            color: #f2cf0d; /* żółty tekst */
+            font-weight: bold;
+        }
+
+        /* Grupa chmur */
+        .cloud-group {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            animation: cloudsMove 58.2s linear infinite; /* przyśpieszone o 3% (60s * 0.97 = 58.2s) */
+        }
+
+        /* Animacja chmur */
+        @keyframes cloudsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100px);
+            }
+        }
+
+        /* Pojedyncza chmura */
+        .cloud {
+            position: relative;
+            display: flex;
+        }
+
+        /* Kółka tworzące chmurę */
+        .cloud-circle {
+            background-color: #D1E5F4; /* nowy kolor chmur */
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* powiększony cień */
+        }
+
+        /* Dolny pasek z trójkątami */
+        .bottom-triangles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px; /* zwiększona wysokość dla większej różnorodności */
+            z-index: 1;
+            animation: mountainsMove 120s linear infinite;
+        }
+
+        /* Animacja gór */
+        @keyframes mountainsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100px);
+            }
+        }
+
+        .triangle {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        /* Główny kontener - OBNIŻONY aby zrobić miejsce na banner */
+        .main-container {
+            display: flex;
+            gap: 60px;
+            z-index: 3;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: flex-start;
+            margin-top: 220px; /* ZWIĘKSZONE aby zrobić więcej miejsca na banner */
+        }
+
+        /* Panel użytkowników */
+        .users-panel {
+            min-width: 200px;
+            background: #fff3d1;
+            border-radius: 12px;
+            border: 2px solid #5a2a0e;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            padding: 20px 15px;
+        }
+
+        .users-title {
+            font-size: 18px;
+            color: #5a2a0e;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .user-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+            color: #863e15;
+        }
+
+            .user-list li {
+                margin-bottom: 8px;
+                padding: 5px 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+        .user-emoji {
+            font-size: 18px;
+        }
+
+        /* Panel transportów */
+        .transport-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 280px;
+        }
+
+        /* Karty transportów */
+        .transport-card {
+            background-color: #863e15;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #5a2a0e;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            rotate: -1deg;
+        }
+
+            .transport-card:hover {
+                transform: scale(1.03);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            }
+
+            /* Specyficzne przekrzywienie dla każdej karty */
+            .transport-card:nth-child(1) {
+                rotate: 0.5deg;
+            }
+
+            .transport-card:nth-child(2) {
+                rotate: -1deg;
+            }
+
+            .transport-card:nth-child(3) {
+                rotate: 1.5deg;
+            }
+
+            .transport-card:hover {
+                rotate: 1.5deg;
+            }
+
+        /* Nowy układ z emoji głosowania w jednej linii z nazwą */
+        .transport-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .transport-name {
+            font-size: 16px;
+            color: #f2cf0d;
+            font-weight: bold;
+        }
+
+        .transport-vote-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Przyciski głosowania */
+        .vote-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            min-width: 40px;
+        }
+
+            .vote-btn:hover {
+                transform: scale(1.15);
+            }
+
+            .vote-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+            }
+
+                .vote-btn:disabled:hover {
+                    transform: none;
+                    background-color: transparent;
+                }
+
+        .like-btn {
+            color: #4CAF50; /* zielony dla like */
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 1px solid #4CAF50;
+        }
+
+        .dislike-btn {
+            color: #f44336; /* czerwony dla dislike */
+            background-color: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+        }
+
+        /* Aktywne przyciski */
+        .vote-btn.active {
+            background-color: rgba(242, 207, 13, 0.2);
+            transform: scale(1.1);
+        }
+
+        .like-btn.active {
+            background-color: rgba(76, 175, 80, 0.3);
+            color: #ffffff;
+        }
+
+        .dislike-btn.active {
+            background-color: rgba(244, 67, 54, 0.3);
+            color: #ffffff;
+        }
+
+        /* Liczniki głosów */
+        .vote-count {
+            font-size: 14px;
+            color: #f2cf0d;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Przycisk zmiany głosu */
+        .change-vote-btn {
+            background: none;
+            border: 1px solid #f2cf0d;
+            color: #f2cf0d;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+            .change-vote-btn:hover {
+                background-color: rgba(242, 207, 13, 0.1);
+                transform: scale(1.05);
+            }
+
+        /* Przycisk Dalej */
+        .next-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 25px;
+            font-size: 18px;
+            color: #f2cf0d;
+            background-color: #863e15;
+            border-radius: 6px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            z-index: 4;
+        }
+
+            .next-button:hover {
+                background-color: #5a2a0e;
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            }
+    </style>
+</head>
+<body>
+    <!-- Logo na środku przed chmurami -->
+    <img src="silly_road_logo.png" alt="Silly Road Logo" class="logo">
+
+    <!-- Informacja o zwycięzcy NA GÓRZE strony -->
+    <div class="winner-banner">
+        <div class="winner-title">Aktualnie prowadzi:</div>
+        <div class="winner-name" id="winnerName">-</div>
+    </div>
+
+    <div class="clouds-container">
+        <div class="cloud-group">
+            <!-- Pierwsza chmura -->
+            <div class="cloud" style="left: 1%; margin-top: 5px;">
+                <div class="cloud-circle" style="width: 102px; height: 102px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 17px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 34px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 8px;"></div>
+            </div>
+
+            <!-- Druga chmura -->
+            <div class="cloud" style="left: 3%; margin-top: 25px;">
+                <div class="cloud-circle" style="width: 119px; height: 119px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 15px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 32px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -34px; margin-top: 7px;"></div>
+            </div>
+
+            <!-- Trzecia chmura -->
+            <div class="cloud" style="left: 5%; margin-top: 40px;">
+                <div class="cloud-circle" style="width: 93px; height: 93px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 27px;"></div>
+                <div class="cloud-circle" style="width: 59px; height: 59px; margin-left: -17px; margin-top: 44px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 18px;"></div>
+            </div>
+
+            <!-- Czwarta chmura -->
+            <div class="cloud" style="left: 7%; margin-top: 15px;">
+                <div class="cloud-circle" style="width: 110px; height: 110px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 52px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 27px;"></div>
+            </div>
+
+            <!-- Piąta chmura -->
+            <div class="cloud" style="left: 9%; margin-top: 30px;">
+                <div class="cloud-circle" style="width: 85px; height: 85px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -20px; margin-top: 23px;"></div>
+                <div class="cloud-circle" style="width: 51px; height: 51px; margin-left: -17px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 5px;"></div>
+            </div>
+
+            <!-- Szósta chmura -->
+            <div class="cloud" style="left: 12%; margin-top: 10px;">
+                <div class="cloud-circle" style="width: 127px; height: 127px;"></div>
+                <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 20px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -30px; margin-top: 37px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 13px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Główny kontener z panelami -->
+    <div class="main-container">
+        <!-- Panel użytkowników -->
+        <div class="users-panel">
+            <div class="users-title">Użytkownicy:</div>
+            <ul class="user-list" id="userList">
+                <!-- Użytkownicy zostaną dodani przez JavaScript -->
+            </ul>
+        </div>
+
+        <!-- Panel transportów -->
+        <div class="transport-panel">
+            <div class="transport-card" id="rower-card">
+                <div class="transport-header">
+                    <div class="transport-name">🚲 Rower</div>
+                    <div class="transport-vote-buttons">
+                        <button class="vote-btn like-btn" onclick="vote('rower', 1)">👍</button>
+                        <button class="vote-btn dislike-btn" onclick="vote('rower', -1)">👎</button>
+                    </div>
+                </div>
+                <div class="vote-count" id="rower-count">0</div>
+                <button class="change-vote-btn" onclick="changeVote('rower')" style="display: none;">Zmień głos</button>
+            </div>
+            <div class="transport-card" id="pociag-card">
+                <div class="transport-header">
+                    <div class="transport-name">🚂 Pociąg</div>
+                    <div class="transport-vote-buttons">
+                        <button class="vote-btn like-btn" onclick="vote('pociag', 1)">👍</button>
+                        <button class="vote-btn dislike-btn" onclick="vote('pociag', -1)">👎</button>
+                    </div>
+                </div>
+                <div class="vote-count" id="pociag-count">0</div>
+                <button class="change-vote-btn" onclick="changeVote('pociag')" style="display: none;">Zmień głos</button>
+            </div>
+            <div class="transport-card" id="samolot-card">
+                <div class="transport-header">
+                    <div class="transport-name">✈️ Samolot</div>
+                    <div class="transport-vote-buttons">
+                        <button class="vote-btn like-btn" onclick="vote('samolot', 1)">👍</button>
+                        <button class="vote-btn dislike-btn" onclick="vote('samolot', -1)">👎</button>
+                    </div>
+                </div>
+                <div class="vote-count" id="samolot-count">0</div>
+                <button class="change-vote-btn" onclick="changeVote('samolot')" style="display: none;">Zmień głos</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Przycisk Dalej -->
+    <button class="next-button" onclick="goNext()">Dalej</button>
+
+    <!-- Dolny pasek z trójkątami -->
+    <div class="bottom-triangles">
+        <!-- Trójkąty równoramienne nachodzące na siebie - lewa strona -->
+        <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 7%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 11%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 13%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 16%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 20%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 21%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 25%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 34%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 40%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 42%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 45%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 50%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 51%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 53%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 56%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 60%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 63%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 64%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+
+        <!-- Nowe góry po prawej stronie -->
+        <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 85%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 90%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 92%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 94%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 97%; border-width: 0 85px 125px 85px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 100%; border-width: 0 70px 130px 70px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 103%; border-width: 0 65px 105px 65px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 106%; border-width: 0 75px 115px 75px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+    </div>
+
+    <script>
+        // Lista emotek
+        const emojis = ['🤠', '💀', '😂', '🤔', '🙂', '😎', '😡', '😱', '🤢', '🤯'];
+
+        // Nowi użytkownicy
+        const users = ['Hatsune Miku', 'John Cena', 'Lord Vader'];
+
+        // Obiekt do przechowywania głosów
+        const votes = {
+            'rower': 0,
+            'pociag': 0,
+            'samolot': 0
+        };
+
+        // Obiekt do śledzenia głosów użytkownika
+        const userVotes = {
+            'rower': null, // null = nie zagłosowano, 1 = like, -1 = dislike
+            'pociag': null,
+            'samolot': null
+        };
+
+        // Mapowanie nazw transportów
+        const transportNames = {
+            'rower': '🚲 Rower',
+            'pociag': '🚂 Pociąg',
+            'samolot': '✈️ Samolot'
+        };
+
+        // Funkcja do losowania emotki
+        function getRandomEmoji() {
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        }
+
+        // Funkcja do inicjalizacji użytkowników z losowymi emotkami
+        function initializeUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+
+            users.forEach(user => {
+                const li = document.createElement('li');
+                const emojiSpan = document.createElement('span');
+                emojiSpan.className = 'user-emoji';
+                emojiSpan.textContent = getRandomEmoji();
+
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = user;
+
+                li.appendChild(emojiSpan);
+                li.appendChild(nameSpan);
+                userList.appendChild(li);
+            });
+        }
+
+        // Funkcja do głosowania
+        function vote(transport, value) {
+            // Jeśli użytkownik już głosował, zablokuj możliwość ponownego głosowania
+            if (userVotes[transport] !== null) {
+                return;
+            }
+
+            // Zarejestruj głos użytkownika
+            userVotes[transport] = value;
+            votes[transport] += value;
+
+            // Zaktualizuj wyświetlanie
+            updateVoteDisplay(transport);
+            updateWinner();
+        }
+
+        // Funkcja do zmiany głosu
+        function changeVote(transport) {
+            // Odejmij poprzedni głos
+            votes[transport] -= userVotes[transport];
+
+            // Zresetuj głos użytkownika
+            userVotes[transport] = null;
+
+            // Zaktualizuj wyświetlanie
+            updateVoteDisplay(transport);
+            updateWinner();
+        }
+
+        // Funkcja aktualizująca wyświetlanie głosów
+        function updateVoteDisplay(transport) {
+            const card = document.getElementById(`${transport}-card`);
+            const likeBtn = card.querySelector('.like-btn');
+            const dislikeBtn = card.querySelector('.dislike-btn');
+            const changeBtn = card.querySelector('.change-vote-btn');
+            const countElement = document.getElementById(`${transport}-count`);
+
+            // Zaktualizuj licznik
+            countElement.textContent = votes[transport];
+
+            if (userVotes[transport] === null) {
+                // Użytkownik nie głosował - pokaż przyciski głosowania
+                likeBtn.disabled = false;
+                dislikeBtn.disabled = false;
+                likeBtn.classList.remove('active');
+                dislikeBtn.classList.remove('active');
+                changeBtn.style.display = 'none';
+            } else {
+                // Użytkownik głosował - pokaż który przycisk jest aktywny
+                likeBtn.disabled = true;
+                dislikeBtn.disabled = true;
+
+                if (userVotes[transport] === 1) {
+                    likeBtn.classList.add('active');
+                    dislikeBtn.classList.remove('active');
+                } else {
+                    dislikeBtn.classList.add('active');
+                    likeBtn.classList.remove('active');
+                }
+
+                // Pokaż przycisk zmiany głosu
+                changeBtn.style.display = 'block';
+            }
+        }
+
+        // Funkcja aktualizująca informację o zwycięzcy
+        function updateWinner() {
+            const winnerElement = document.getElementById('winnerName');
+            let maxVotes = -Infinity;
+            let winners = [];
+
+            // Znajdź opcję z największą liczbą głosów
+            for (const [transport, voteCount] of Object.entries(votes)) {
+                if (voteCount > maxVotes) {
+                    maxVotes = voteCount;
+                    winners = [transport];
+                } else if (voteCount === maxVotes) {
+                    winners.push(transport);
+                }
+            }
+
+            if (maxVotes <= 0 && winners.length > 0) {
+                winnerElement.textContent = 'Brak głosów';
+            } else if (winners.length === 1) {
+                winnerElement.textContent = transportNames[winners[0]];
+            } else if (winners.length > 1) {
+                winnerElement.textContent = 'Remis';
+            } else {
+                winnerElement.textContent = '-';
+            }
+        }
+
+        // Funkcja przycisku Dalej
+        function goNext() {
+            // Tutaj można dodać logikę przejścia do następnej strony
+            alert('Przechodzimy dalej! Wyniki głosowania: ' + JSON.stringify(votes));
+            // window.location.href = 'nastepna_strona.html';
+        }
+
+        // Funkcje do integracji - można je później wykorzystać
+        function setUserNames(names) {
+            // names = ['Imię1', 'Imię2', 'Imię3']
+            users.length = 0;
+            names.forEach(name => users.push(name));
+            initializeUsers();
+        }
+
+        function setTransportOptions(transports) {
+            // transports = ['Nazwa1', 'Nazwa2', 'Nazwa3']
+            // Tutaj można dodać logikę do aktualizacji nazw transportów
+        }
+
+        function getVotes() {
+            return votes;
+        }
+
+        function getUserVotes() {
+            return userVotes;
+        }
+
+        // Inicjalizacja strony
+        initializeUsers();
+        updateWinner();
+    </script>
+</body>
+</html>

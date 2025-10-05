@@ -60,7 +60,7 @@
 <body>
     <div class="container">
         <input type="number" class="text-input" id="budgetInput" placeholder="Budzet" min="0" step="1">
-        <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+">
+        <input type="text" class="text-input" id="countryInput" placeholder="Kraj" pattern="[A-Za-zï¿½ï¿½ï¿½ï¿½óœŸ¿ï¿½ï¿½Ê£ï¿½ÓŒï¿½ï¿½ ]+">
         <input type="number" class="text-input" id="lengthInput" placeholder="Dlugosc wyjazdu" min="2" step="1">
         <button class="button" id="nextButton">Dalej</button>
     </div>
@@ -97,15 +97,15 @@
                 return;
             }
             if (!/^\d+$/.test(budget)) {
-                alert('Budzet musi byc liczb¹!');
+                alert('Budzet musi byc liczbï¿½!');
                 return;
             }
             if (!/^\d+$/.test(length) || parseInt(length,10) < 2) {
-                alert('Dlugosc wyjazdu musi byc liczb¹ nie mniejsz¹ ni¿ 2!');
+                alert('Dlugosc wyjazdu musi byc liczbï¿½ nie mniejszï¿½ niï¿½ 2!');
                 return;
             }
-            if (!/^[A-Za-z¹æê³ñóœŸ¿¥ÆÊ£ÑÓŒ¯ ]+$/.test(country)) {
-                alert('Kraj mo¿e zawieraæ tylko litery!');
+            if (!/^[A-Za-zï¿½ï¿½ï¿½ï¿½óœŸ¿ï¿½ï¿½Ê£ï¿½ÓŒï¿½ï¿½ ]+$/.test(country)) {
+                alert('Kraj moï¿½e zawieraï¿½ tylko litery!');
                 return;
             }
             sessionStorage.setItem('lobbyBudget', budget);
@@ -116,10 +116,10 @@
             const lobbies = loadLobbies();
             const code = generateUniqueCode(lobbies);
             if (!code) {
-                alert('Brak dostêpnych kodów — spróbuj póŸniej.');
+                alert('Brak dostï¿½pnych kodï¿½w ï¿½ sprï¿½buj pï¿½niej.');
                 return;
             }
-            // Wyczyœæ dane wyjazdu dla nowego lobby
+            // Wyczyï¿½ï¿½ dane wyjazdu dla nowego lobby
             const wyjazdKeys = ['dojazd', 'zakwaterowanie'];
             let len = parseInt(length, 10);
             if (isNaN(len) || len < 2) len = 2;
