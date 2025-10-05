@@ -42,5 +42,11 @@ document.getElementById('joinButton').onclick = function() {
     }
     sessionStorage.setItem('currentLobby', JSON.stringify(lobby));
     sessionStorage.setItem('userName', userName);
-    // SprawdŸ, które dane wyjazdu s¹ puste
-    const wy
+    window.location.href = `lobby.html?code=${encodeURIComponent(entered)}`;
+};
+document.getElementById('backButton').onclick = function() {
+    window.location.href = 'index.html';
+};
+document.getElementById('createLobby').onclick = function() {
+    window.location.href = 'dane_lobby.html';
+};

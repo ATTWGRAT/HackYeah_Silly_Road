@@ -10,11 +10,111 @@
         .button { padding: 12px 32px; font-size: 22px; color: #f2cf0d; background: #863e15; border-radius: 4px; border: 2px solid #5a2a0e; font-weight: bold; box-shadow: 0 8px 18px rgba(0,0,0,0.12); cursor: pointer; }
         .button:hover { background: #5a2a0e; }
         .step-label { font-size: 22px; color: #5a2a0e; font-weight: bold; margin-bottom: 8px; }
+        #searchSidebar {
+            position: fixed;
+            top: 0;
+            right: -34vw;
+            width: 33vw;
+            min-width: 320px;
+            max-width: 480px;
+            height: 100vh;
+            background: #fff3d1;
+            border-left: 3px solid #5a2a0e;
+            box-shadow: -8px 0 24px rgba(0,0,0,0.13);
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(.77,0,.18,1);
+            display: flex;
+            flex-direction: column;
+        }
+        #searchSidebar.open {
+            right: 0;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 2.1rem;
+            font-weight: bold;
+            color: #863e15;
+            background: #ffe6a7;
+            padding: 24px 24px 16px 24px;
+            border-bottom: 2px solid #f2cf0d;
+        }
+        .sidebar-emoji {
+            font-size: 2.5rem;
+        }
+        .sidebar-country {
+            font-size: 1.5rem;
+            color: #5a2a0e;
+            font-weight: bold;
+        }
+        .sidebar-city {
+            font-size: 1.5rem;
+            color: #863e15;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px 24px 24px 24px;
+        }
+        #sidebarToggle {
+            position: absolute;
+            left: -36px;
+            top: 32px;
+            width: 32px;
+            height: 48px;
+            background: #863e15;
+            color: #f2cf0d;
+            border: 2px solid #5a2a0e;
+            border-radius: 8px 0 0 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: left 0.4s cubic-bezier(.77,0,.18,1);
+        }
+        #searchSidebar.open #sidebarToggle {
+            left: -36px;
+        }
+        .category-box {
+            background: #f7c564;
+            color: #863e15;
+            border: 2px solid #f2cf0d;
+            border-radius: 8px;
+            padding: 6px 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 2px;
+            transition: background 0.2s, color 0.2s;
+            user-select: none;
+        }
+        .category-box:hover, .category-box.selected {
+            background: #f2cf0d;
+            color: #5a2a0e;
+        }
+        @media (max-width: 900px) {
+            #searchSidebar { width: 90vw; min-width: 0; }
+        }
     </style>
 </head>
 <body>
     <div class="container" id="stepContainer">
         <!-- Dynamiczne pola krok po kroku -->
+    </div>
+    <!-- WYSUWANE OKNO WYSZUKIWANIA -->
+    <div id="searchSidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-emoji">🔍</span>
+            <span class="sidebar-country" id="sidebarCountry"></span>
+            <span class="sidebar-city" id="sidebarCity"></span>
+        </div>
+        <div class="sidebar-content">
+            <div id="categoriesList" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;"></div>
+            <!-- Tu można dodać pole wyszukiwania lub wyniki -->
+        </div>
+        <button id="sidebarToggle">&lt;</button>
     </div>
     <script>
         let lobby = null;
@@ -44,7 +144,8 @@
         if (isNaN(budget)) budget = 0;
         const attractionsCount = 2 + (length - 2) * 3;
         const steps = [
-            { key: 'dojazd', label: 'Dojazd' },
+            { key: 'miejscowosc', label: 'Miejscowość' },
+            { key: 'transport', label: 'Transport' },
             { key: 'zakwaterowanie', label: 'Zakwaterowanie' }
         ];
         for (let i = 1; i <= attractionsCount; i++) {
@@ -71,20 +172,23 @@
             input.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}`) || '';
             stepContainer.appendChild(label);
             stepContainer.appendChild(input);
-            // Pole kosztu
-            const costLabel = document.createElement('div');
-            costLabel.className = 'step-label';
-            costLabel.textContent = 'Koszt';
-            const costInput = document.createElement('input');
-            costInput.className = 'text-input';
-            costInput.id = 'costInput';
-            costInput.type = 'number';
-            costInput.min = '0';
-            costInput.step = '0.01';
-            costInput.placeholder = 'Koszt';
-            costInput.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}_koszt`) || '';
-            stepContainer.appendChild(costLabel);
-            stepContainer.appendChild(costInput);
+            // Pole kosztu tylko jeśli nie miejscowosc
+            let costInput = null;
+            if (step.key !== 'miejscowosc') {
+                const costLabel = document.createElement('div');
+                costLabel.className = 'step-label';
+                costLabel.textContent = 'Koszt';
+                costInput = document.createElement('input');
+                costInput.className = 'text-input';
+                costInput.id = 'costInput';
+                costInput.type = 'number';
+                costInput.min = '0';
+                costInput.step = '0.01';
+                costInput.placeholder = 'Koszt';
+                costInput.value = sessionStorage.getItem(`wyjazd_${code}_${step.key}_koszt`) || '';
+                stepContainer.appendChild(costLabel);
+                stepContainer.appendChild(costInput);
+            }
             // Pole na opis
             const descLabel = document.createElement('div');
             descLabel.className = 'step-label';
@@ -128,29 +232,43 @@
             btn.onclick = function() {
                 const val = input.value.trim();
                 const descVal = desc.value.trim();
-                const costVal = costInput.value.trim();
-                const cost = parseFloat(costVal);
-                if (!val || costVal === '') {
-                    alert('Wypelnij pole i koszt!');
-                    return;
+                let costVal = '';
+                let cost = 0;
+                if (step.key !== 'miejscowosc') {
+                    costVal = costInput.value.trim();
+                    cost = parseFloat(costVal);
+                    if (!val || costVal === '') {
+                        alert('Wypelnij pole i koszt!');
+                        return;
+                    }
+                    if (isNaN(cost) || cost < 0) {
+                        alert('Koszt musi byc liczba nieujemna!');
+                        return;
+                    }
+                    if (budget - cost < 0) {
+                        alert('Brak wystarczajacej kwoty!');
+                        return;
+                    }
+                } else {
+                    if (!val) {
+                        alert('Wypelnij pole!');
+                        return;
+                    }
                 }
                 if (descVal.length > 500) {
                     alert('Opis nie może przekraczać 500 znaków!');
                     return;
                 }
-                if (isNaN(cost) || cost < 0) {
-                    alert('Koszt musi byc liczba nieujemna!');
-                    return;
-                }
-                if (budget - cost < 0) {
-                    alert('Brak wystarczajacej kwoty!');
-                    return;
-                }
                 sessionStorage.setItem(`wyjazd_${code}_${step.key}`, val);
+                if (step.key === 'miejscowosc') {
+                    sessionStorage.setItem('lastCity', val);
+                }
                 sessionStorage.setItem(`wyjazd_${code}_${step.key}_desc`, descVal);
-                sessionStorage.setItem(`wyjazd_${code}_${step.key}_koszt`, cost.toFixed(2));
-                budget -= cost;
-                sessionStorage.setItem('lobbyBudget', budget.toFixed(2));
+                if (step.key !== 'miejscowosc') {
+                    sessionStorage.setItem(`wyjazd_${code}_${step.key}_koszt`, cost.toFixed(2));
+                    budget -= cost;
+                    sessionStorage.setItem('lobbyBudget', budget.toFixed(2));
+                }
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     sessionStorage.setItem('wyjazd_step', currentStep);
@@ -161,8 +279,83 @@
                 }
             };
             stepContainer.appendChild(btn);
+
+            // Automatyczna aktualizacja panelu bocznego z miejscowością
+            let citySpan = document.getElementById('sidebarCity');
+            let city = sessionStorage.getItem(`wyjazd_${code}_miejscowosc`) || sessionStorage.getItem('lastCity') || '';
+            citySpan.textContent = city;
+            // Wyświetl kategorie dla aktualnego kroku
+            renderCategories(step.key);
         }
+        // Kategorie do wyszukiwarki
+        const categories = {
+            miejscowosc: ["Zwiedzanie", "Parki", "Duze Miasto", "Morze", "Relaks", "Sport", "Góry", "Wieś"],
+            transport: ["Samochód", "Pociąg", "Autobus", "Rower", "Samolot", "Prom", "Metro", "Taxi"],
+            zakwaterowanie: ["Hotel", "Hostel", "Apartament", "Kemping", "Agroturystyka", "Pensjonat", "Motel"],
+            atrakcja: ["Muzeum", "Park rozrywki", "Plaża", "Szlak", "Restauracja", "Zamek", "Galeria", "Aquapark", "Klub"]
+        };
+
+        function renderCategories(stepKey) {
+            const catDiv = document.getElementById('categoriesList');
+            if (!catDiv) return;
+            catDiv.innerHTML = '';
+            let catArr = [];
+            if (stepKey.startsWith('atrakcja')) {
+                catArr = categories.atrakcja;
+            } else if (categories[stepKey]) {
+                catArr = categories[stepKey];
+            }
+            catArr.forEach(cat => {
+                const el = document.createElement('div');
+                el.className = 'category-box';
+                el.textContent = cat;
+                catDiv.appendChild(el);
+            });
+        }
+
         renderStep();
+    // Sidebar wyszukiwania
+    (function() {
+        const sidebar = document.getElementById('searchSidebar');
+        const toggle = document.getElementById('sidebarToggle');
+        const countrySpan = document.getElementById('sidebarCountry');
+        // Dodaj pole na miejscowość
+        let citySpan = document.getElementById('sidebarCity');
+        if (!citySpan) {
+            citySpan = document.createElement('span');
+            citySpan.className = 'sidebar-city';
+            countrySpan.parentNode.appendChild(citySpan);
+        }
+        // Pobierz kraj z sessionStorage lub lobby
+        let lobby = null;
+        try { lobby = JSON.parse(sessionStorage.getItem('currentLobby')); } catch {}
+    let country = lobby ? lobby.country : sessionStorage.getItem('lobbyCountry') || '';
+    let code = lobby ? lobby.code : sessionStorage.getItem('lobbyCode') || '';
+    let city = sessionStorage.getItem(`wyjazd_${code}_miejscowosc`) || sessionStorage.getItem('lastCity') || '';
+    countrySpan.textContent = country;
+    citySpan.textContent = city ? ' | ' + city : '';
+        // Otwórz na start
+        setTimeout(() => { sidebar.classList.add('open'); }, 300);
+        // Przełącznik
+        toggle.onclick = function() {
+            sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+                toggle.innerHTML = '&lt;';
+            } else {
+                toggle.innerHTML = '&gt;';
+            }
+        };
+    })();
+
+    // Wyświetl kategorie w sidebarze na starcie
+    (function() {
+        const catDiv = document.getElementById('categoriesList');
+        if (!catDiv) return;
+        // Ustal aktualny krok
+        let wyjazdStep = parseInt(sessionStorage.getItem('wyjazd_step') || '0', 10);
+        let stepKey = steps[wyjazdStep] ? steps[wyjazdStep].key : 'miejscowosc';
+        renderCategories(stepKey);
+    })();
     </script>
 </body>
 </html>
