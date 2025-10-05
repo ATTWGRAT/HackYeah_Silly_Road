@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Silly road - Dane wyjazdu</title>
+    <style>
+        body { margin: 0; height: 100vh; background: #f7c564; font-family: Arial, sans-serif; }
+        .container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff3d1; border-radius: 12px; border: 2px solid #5a2a0e; box-shadow: 0 8px 18px rgba(0,0,0,0.12); padding: 32px 24px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+        .text-input { padding: 12px 32px; font-size: 22px; color: #863e15; background: #f7c564; border-radius: 4px; border: 2px solid #5a2a0e; font-weight: bold; box-shadow: 0 6px 12px rgba(0,0,0,0.08); outline: none; width: 220px; text-align: center; }
+        .button { padding: 12px 32px; font-size: 22px; color: #f2cf0d; background: #863e15; border-radius: 4px; border: 2px solid #5a2a0e; font-weight: bold; box-shadow: 0 8px 18px rgba(0,0,0,0.12); cursor: pointer; }
+        .button:hover { background: #5a2a0e; }
+        .step-label { font-size: 22px; color: #5a2a0e; font-weight: bold; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container" id="stepContainer">
+        <!-- Dynamiczne pola krok po kroku -->
+    </div>
+    <script>
+        let length = parseInt(sessionStorage.getItem('lobbyLength'), 10);
+        if (isNaN(length) || length < 2) length = 2;
+        sessionStorage.setItem('lobbyLength', length);
+        let budget = parseFloat(sessionStorage.getItem('lobbyBudget'));
+        if (isNaN(budget)) budget = 0;
+        const attractionsCount = 2 + (length - 2) * 3;
+        const steps = [
+            { key: 'dojazd', label: 'Dojazd' },
+            { key: 'zakwaterowanie', label: 'Zakwaterowanie' }
+        ];
+        for (let i = 1; i <= attractionsCount; i++) {
+            steps.push({ key: `atrakcja${i}`, label: `Atrakcja ${i}` });
+        }
+        steps.push({ key: 'powrot', label: 'Powrot' });
+        let currentStep = 0;
+        const stepContainer = document.getElementById('stepContainer');
+        function renderStep() {
+            stepContainer.innerHTML = '';
+            const step = steps[currentStep];
+            const label = document.createElement('div');
+            label.className = 'step-label';
+            label.textContent = step.label;
+            const input = document.createElement('input');
+            input.className = 'text-input';
+            input.id = 'stepInput';
+            input.placeholder = step.label;
+            input.value = sessionStorage.getItem('wyjazd_' + step.key) || '';
+            stepContainer.appendChild(label);
+            stepContainer.appendChild(input);
+            // Pole kosztu
+            const costLabel = document.createElement('div');
+            costLabel.className = 'step-label';
+            costLabel.textContent = 'Koszt';
+            const costInput = document.createElement('input');
+            costInput.className = 'text-input';
+            costInput.id = 'costInput';
+            costInput.type = 'number';
+            costInput.min = '0';
+            costInput.step = '0.01';
+            costInput.placeholder = 'Koszt';
+            costInput.value = sessionStorage.getItem('wyjazd_' + step.key + '_koszt') || '';
+            stepContainer.appendChild(costLabel);
+            stepContainer.appendChild(costInput);
+            // Pokaz aktualna kwote
+            const budgetInfo = document.createElement('div');
+            budgetInfo.className = 'step-label';
+            budgetInfo.textContent = 'Pozostala kwota: ' + budget.toFixed(2);
+            stepContainer.appendChild(budgetInfo);
+            const btn = document.createElement('button');
+            btn.className = 'button';
+            btn.textContent = currentStep < steps.length - 1 ? 'Dalej' : 'Zakoncz';
+            btn.onclick = function() {
+                const val = input.value.trim();
+                const costVal = costInput.value.trim();
+                const cost = parseFloat(costVal);
+                if (!val || costVal === '') {
+                    alert('Wypelnij pole i koszt!');
+                    return;
+                }
+                if (isNaN(cost) || cost < 0) {
+                    alert('Koszt musi byc liczba nieujemna!');
+                    return;
+                }
+                if (budget - cost < 0) {
+                    alert('Brak wystarczajacej kwoty!');
+                    return;
+                }
+                sessionStorage.setItem('wyjazd_' + step.key, val);
+                sessionStorage.setItem('wyjazd_' + step.key + '_koszt', cost.toFixed(2));
+                budget -= cost;
+                sessionStorage.setItem('lobbyBudget', budget.toFixed(2));
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    renderStep();
+                } else {
+                    window.location.href = 'podsumowanie.html';
+                }
+            };
+            stepContainer.appendChild(btn);
+        }
+        renderStep();
+    </script>
+</body>
+</html>

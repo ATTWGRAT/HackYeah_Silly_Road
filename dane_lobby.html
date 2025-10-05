@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Silly road</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #f7c564;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            background: #fff3d1;
+            border-radius: 12px;
+            border: 2px solid #5a2a0e;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+            padding: 32px 24px;
+        }
+        .text-input {
+            padding: 12px 32px;
+            font-size: 22px;
+            color: #863e15;
+            background-color: #f7c564;
+            border-radius: 4px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            outline: none;
+            width: 220px;
+            text-align: center;
+        }
+        .button {
+            padding: 12px 32px;
+            font-size: 22px;
+            color: #f2cf0d;
+            background-color: #863e15;
+            border-radius: 4px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #5a2a0e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" class="text-input" id="budgetInput" placeholder="Budzet">
+        <input type="text" class="text-input" id="countryInput" placeholder="Kraj">
+        <input type="text" class="text-input" id="lengthInput" placeholder="Dlugosc wyjazdu">
+        <button class="button" id="nextButton">Dalej</button>
+    </div>
+    <script>
+        const STORAGE_KEY = 'lobbies';
+        function loadLobbies() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch {
+                return [];
+            }
+        }
+        function saveLobbies(list) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        }
+        function gen4Digit() {
+            return Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        }
+        function generateUniqueCode(existing) {
+            const existingSet = new Set(existing.map(l => l.code));
+            for (let i = 0; i < 10000; i++) {
+                const code = gen4Digit();
+                if (!existingSet.has(code)) return code;
+            }
+            return null;
+        }
+        document.getElementById('nextButton').onclick = function() {
+            const budget = document.getElementById('budgetInput').value.trim();
+            const country = document.getElementById('countryInput').value.trim();
+            const length = document.getElementById('lengthInput').value.trim();
+            if (!budget || !country || !length) {
+                alert('Wypelnij wszystkie pola!');
+                return;
+            }
+            sessionStorage.setItem('lobbyBudget', budget);
+            sessionStorage.setItem('lobbyCountry', country);
+            sessionStorage.setItem('lobbyLength', length);
+            // Tworzenie lobby
+            const userName = localStorage.getItem('userName') || 'Anonim';
+            const lobbies = loadLobbies();
+            const code = generateUniqueCode(lobbies);
+            if (!code) {
+                alert('Brak dostêpnych kodów — spróbuj póŸniej.');
+                return;
+            }
+            const createdAt = new Date().toISOString();
+            const lobby = {
+                code,
+                owner: userName,
+                createdAt,
+                users: [userName],
+                budget,
+                country,
+                length
+            };
+            lobbies.push(lobby);
+            saveLobbies(lobbies);
+            sessionStorage.setItem('currentLobby', JSON.stringify(lobby));
+            sessionStorage.setItem('userName', userName);
+            window.location.href = `lobby.html?code=${encodeURIComponent(code)}`;
+        };
+    </script>
+</body>
+</html>

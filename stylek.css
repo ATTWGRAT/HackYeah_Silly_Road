@@ -134,7 +134,7 @@ body {
 }
 
 .text-input {
-    display: inline-block;
+    display: outline-block;
     padding: 12px 35px; /* kszta³t bardziej jak deska */
     font-size: 20px; /* rozmiar tekstu */
     color: #f2cf0d; /* kolor tekstu */
