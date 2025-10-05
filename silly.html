@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Strona z przyciskami</title>
+    <title>Silly😛 Road</title>
     <style>
         body {
             margin: 0;
@@ -10,36 +10,48 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f7c564; /* kolor tła */
+            background-color: #f7c564;
             font-family: Arial, sans-serif;
             position: relative;
             overflow: hidden;
         }
 
-        /* Kontener na chmury */
+        .silly-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #8B4513;
+            color: #f2cf0d;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
         .clouds-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 180px; /* powiększony kontener dla większych chmur */
+            height: 180px;
             overflow: hidden;
-            z-index: 1; /* Chmury za logo */
+            z-index: 1;
         }
 
-        /* Logo na środku */
         .logo {
             position: absolute;
-            top: -310px; /* odległość od góry */
-            left: 47.5%; /* przesunięte 5% w lewo (50% - 5% = 45%) */
+            top: -310px;
+            left: 47.5%;
             transform: translateX(-50%);
-            z-index: 2; /* Logo przed chmurami */
-            height: 800px; /* większe logo */
+            z-index: 2;
+            height: 800px;
             width: auto;
             animation: logoRotate 8s ease-in-out infinite;
         }
 
-        /* Animacja logo */
         @keyframes logoRotate {
             0%, 100% {
                 transform: translateX(-50%) rotate(-2deg);
@@ -50,7 +62,34 @@
             }
         }
 
-        /* Grupa chmur */
+        .winner-banner {
+            position: absolute;
+            top: 155px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            background-color: #863e15;
+            border-radius: 12px;
+            border: 2px solid #5a2a0e;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .winner-title {
+            font-size: 18px;
+            color: #f2cf0d;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .winner-name {
+            font-size: 20px;
+            color: #f2cf0d;
+            font-weight: bold;
+        }
+
         .cloud-group {
             position: absolute;
             top: 0;
@@ -59,10 +98,9 @@
             display: flex;
             justify-content: space-around;
             align-items: flex-start;
-            animation: cloudsMove 58.2s linear infinite; /* przyśpieszone o 3% (60s * 0.97 = 58.2s) */
+            animation: cloudsMove 58.2s linear infinite;
         }
 
-        /* Animacja chmur */
         @keyframes cloudsMove {
             0% {
                 transform: translateX(0);
@@ -73,31 +111,27 @@
             }
         }
 
-        /* Pojedyncza chmura */
         .cloud {
             position: relative;
             display: flex;
         }
 
-        /* Kółka tworzące chmurę */
         .cloud-circle {
-            background-color: #D1E5F4; /* nowy kolor chmur */
+            background-color: #D1E5F4;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* powiększony cień */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* Dolny pasek z trójkątami */
         .bottom-triangles {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 120px; /* zwiększona wysokość dla większej różnorodności */
+            height: 120px;
             z-index: 1;
             animation: mountainsMove 120s linear infinite;
         }
 
-        /* Animacja gór */
         @keyframes mountainsMove {
             0% {
                 transform: translateX(0);
@@ -116,175 +150,124 @@
             border-style: solid;
         }
 
-        .container {
-            text-align: center;
-            z-index: 3; /* Przyciski na wierzchniej warstwie */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            z-index: 3;
             position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 220px;
         }
 
-        a.button {
-            display: inline-block;
-            margin: 40px; /* większy margines między przyciskami */
-            padding: 15px 45px; /* kształt bardziej jak deska */
-            font-size: 25px; /* powiększony tekst o 25% (20px * 1.25 = 25px) */
-            color: #f2cf0d; /* nowy kolor tekstu */
-            background-color: #863e15; /* kolor przycisku */
-            border-radius: 4px; /* mniej zaokrąglone rody - bardziej jak deska */
-            text-decoration: none;
-            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 4; /* Przyciski na najwyższej warstwie */
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5); /* większy cień dla przycisków */
-            border: 2px solid #5a2a0e; /* obramowanie dla efektu deski */
+        .participants-panel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        .participant-card {
+            background-color: #863e15;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #5a2a0e;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #f2cf0d;
+            width: 180px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            .participant-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            }
+
+            .participant-card:nth-child(1) {
+                rotate: 0.5deg;
+            }
+
+            .participant-card:nth-child(2) {
+                rotate: -1deg;
+            }
+
+            .participant-card:nth-child(3) {
+                rotate: 1.5deg;
+            }
+
+            .participant-card:nth-child(4) {
+                rotate: -0.5deg;
+            }
+
+            .participant-card:nth-child(5) {
+                rotate: 1deg;
+            }
+
+        .participant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .participant-name {
+            font-size: 16px;
+            color: #f2cf0d;
             font-weight: bold;
-            rotate: -1deg; /* lekkie przekrzywienie */
         }
 
-        /* Specyficzne przekrzywienie dla każdego przycisku */
-        #sillyButton {
-            rotate: -1.5deg;
+        .participant-task {
+            font-size: 14px;
+            color: #f2cf0d;
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(90, 42, 14, 0.3);
+            border-radius: 4px;
         }
 
-        #normalButton {
-            rotate: 1deg;
+        .next-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 25px;
+            font-size: 18px;
+            color: #f2cf0d;
+            background-color: #863e15;
+            border-radius: 6px;
+            border: 2px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            z-index: 4;
         }
 
-        a.button:hover {
-            background-color: #5a2a0e;
-            transform: scale(1.05);
-            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.6); /* jeszcze większy cień przy hover */
-        }
-
-        /* Zwiększone przekrzywienie przy hover */
-        #sillyButton:hover {
-            rotate: -3deg;
-        }
-
-        #normalButton:hover {
-            rotate: 2.5deg;
-        }
-
-        /* Emotki wypadające */
-        .emoji {
-            position: absolute;
-            font-size: 28px; /* mniejsze emotki */
-            pointer-events: none;
-            opacity: 0;
-            z-index: 10;
-        }
-
-        /* Animacje eksplozji */
-        @keyframes explode1 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
+            .next-button:hover {
+                background-color: #5a2a0e;
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             }
-
-            20% {
-                transform: translate(-150px, -80px) scale(1.2) rotate(-180deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-300px, 100vh) scale(0.8) rotate(-720deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes explode2 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            20% {
-                transform: translate(150px, -100px) scale(1.3) rotate(180deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(400px, 100vh) scale(0.7) rotate(900deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes explode3 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            20% {
-                transform: translate(-200px, -120px) scale(1.4) rotate(-270deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-500px, 100vh) scale(0.6) rotate(-1080deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes explode4 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            20% {
-                transform: translate(180px, -150px) scale(1.5) rotate(360deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(600px, 100vh) scale(0.5) rotate(1440deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes explode5 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            20% {
-                transform: translate(-100px, -200px) scale(1.6) rotate(-450deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(-200px, 100vh) scale(0.4) rotate(-1800deg);
-                opacity: 0;
-            }
-        }
-
-        @keyframes explode6 {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            20% {
-                transform: translate(250px, -180px) scale(1.7) rotate(540deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(700px, 100vh) scale(0.3) rotate(2160deg);
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 <body>
-    
-    <img src="silly_road_logo.png" alt="Silly Road Logo" class="logo">
+    <div class="silly-info">Silly😛</div>
+
+    <img src="Silly_road_logo.png" alt="Silly Road Logo" class="logo">
+
+    <div class="winner-banner">
+        <div class="winner-title">Plan podróży:</div>
+        <div class="winner-name" id="winnerName">Podział zadań</div>
+    </div>
 
     <div class="clouds-container">
         <div class="cloud-group">
-          
             <div class="cloud" style="left: 1%; margin-top: 5px;">
                 <div class="cloud-circle" style="width: 102px; height: 102px;"></div>
                 <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 17px;"></div>
@@ -292,7 +275,6 @@
                 <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 8px;"></div>
             </div>
 
-        
             <div class="cloud" style="left: 3%; margin-top: 25px;">
                 <div class="cloud-circle" style="width: 119px; height: 119px;"></div>
                 <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 15px;"></div>
@@ -300,7 +282,6 @@
                 <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -34px; margin-top: 7px;"></div>
             </div>
 
-           
             <div class="cloud" style="left: 5%; margin-top: 40px;">
                 <div class="cloud-circle" style="width: 93px; height: 93px;"></div>
                 <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 27px;"></div>
@@ -308,7 +289,6 @@
                 <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 18px;"></div>
             </div>
 
-         
             <div class="cloud" style="left: 7%; margin-top: 15px;">
                 <div class="cloud-circle" style="width: 110px; height: 110px;"></div>
                 <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 35px;"></div>
@@ -316,32 +296,64 @@
                 <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 27px;"></div>
             </div>
 
-      
             <div class="cloud" style="left: 9%; margin-top: 30px;">
                 <div class="cloud-circle" style="width: 85px; height: 85px;"></div>
                 <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -20px; margin-top: 23px;"></div>
                 <div class="cloud-circle" style="width: 51px; height: 51px; margin-left: -17px; margin-top: 35px;"></div>
-                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 15px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 5px;"></div>
             </div>
 
-       
             <div class="cloud" style="left: 12%; margin-top: 10px;">
                 <div class="cloud-circle" style="width: 127px; height: 127px;"></div>
-                <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 30px;"></div>
-                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -30px; margin-top: 47px;"></div>
-                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 23px;"></div>
+                <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 20px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -30px; margin-top: 37px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 13px;"></div>
             </div>
         </div>
     </div>
 
-    <div class="container">
-    <a href="#" class="button" id="sillyButton">Silly</a>
-    <a href="#" class="button" id="normalButton">Normal</a>
+    <div class="main-container">
+        <div class="participants-panel">
+            <div class="participant-card">
+                <div class="participant-header">
+                    <div class="participant-name">🤠 Hatsune Miku</div>
+                </div>
+                <div class="participant-task">📋 Zadanie: <strong>Nocleg</strong></div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-header">
+                    <div class="participant-name">💀 John Cena</div>
+                </div>
+                <div class="participant-task">📋 Zadanie: <strong>Transport</strong></div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-header">
+                    <div class="participant-name">😂 Lord Vader</div>
+                </div>
+                <div class="participant-task">📋 Zadanie: <strong>Atrakcje</strong></div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-header">
+                    <div class="participant-name">🤔 Naruto Uzumaki</div>
+                </div>
+                <div class="participant-task">📋 Zadanie: <strong>Atrakcje</strong></div>
+            </div>
+
+            <div class="participant-card">
+                <div class="participant-header">
+                    <div class="participant-name">🙂 Sailor Moon</div>
+                </div>
+                <div class="participant-task">📋 Zadanie: <strong>Atrakcje</strong></div>
+            </div>
+        </div>
     </div>
 
-  
+    <button class="next-button" onclick="goNext()">Dalej</button>
+
     <div class="bottom-triangles">
-       
         <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
         <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
         <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
@@ -366,8 +378,6 @@
         <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
         <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
         <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
-
-        
         <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
         <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
         <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
@@ -383,75 +393,8 @@
     </div>
 
     <script>
-        const normalEmojis = ['🚗', '🚙', '🚲', '🚂'];
-        const sillyEmojis = ['😵‍💫', '🌀', '🌪️', '😵‍💫'];
-        const buttons = document.querySelectorAll('.button');
-
-        buttons.forEach(button => {
-            button.addEventListener('mouseenter', function (e) {
-                if (e.target.id === 'sillyButton') {
-                    createExplosion(e.target, sillyEmojis);
-                } else {
-                    createExplosion(e.target, normalEmojis);
-                }
-            });
-
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (e.target.id === 'sillyButton') {
-                    createExplosion(e.target, sillyEmojis);
-                } else {
-                    createExplosion(e.target, normalEmojis);
-                }
-                setTimeout(function() {
-                    window.location.href = 'dane_lobby.html';
-                }, 400); 
-            });
-        });
-
-        function createExplosion(button, emojiList) {
-            const rect = button.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const emojiCount = 10; 
-
-            for (let i = 0; i < emojiCount; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'emoji';
-                emoji.textContent = emojiList[Math.floor(Math.random() * emojiList.length)];
-       
-                const startX = centerX + (Math.random() - 0.5) * rect.width;
-                const startY = centerY + (Math.random() - 0.5) * rect.height;
-
-                emoji.style.left = startX + 'px';
-                emoji.style.top = startY + 'px';
-
-               
-                const explosions = ['explode1', 'explode2', 'explode3', 'explode4', 'explode5', 'explode6'];
-                const randomExplosion = explosions[Math.floor(Math.random() * explosions.length)];
-
-             
-                const randomDuration = 1.8 + Math.random() * 1.5;
-                const randomDelay = Math.random() * 0.1; 
-
-                emoji.style.animation = `${randomExplosion} ${randomDuration}s ease-out ${randomDelay}s forwards`;
-
-
-                if (Math.random() > 0.7) {
-                    emoji.style.filter = `hue-rotate(${Math.random() * 360}deg) brightness(${0.8 + Math.random() * 0.4})`;
-                }
-
-                const randomScale = 0.8 + Math.random() * 0.6;
-                emoji.style.transform = `scale(${randomScale})`;
-
-                document.body.appendChild(emoji);
-
-                setTimeout(() => {
-                    if (emoji.parentNode) {
-                        emoji.parentNode.removeChild(emoji);
-                    }
-                }, (randomDuration + randomDelay) * 1000);
-            }
+        function goNext() {
+            alert('Przechodzimy dalej!');
         }
     </script>
 </body>
