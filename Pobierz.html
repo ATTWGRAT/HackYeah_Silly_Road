@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Silly😛 Road - Plan Podróży</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #f7c564;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .clouds-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .logo {
+            position: fixed;
+            top: -310px;
+            left: 47.5%;
+            transform: translateX(-50%);
+            z-index: 2;
+            height: 800px;
+            width: auto;
+            animation: logoRotate 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes logoRotate {
+            0%, 100% {
+                transform: translateX(-50%) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateX(-50%) rotate(2deg);
+            }
+        }
+
+        .cloud-group {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            animation: cloudsMove 58.2s linear infinite;
+        }
+
+        @keyframes cloudsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-100px);
+            }
+        }
+
+        .cloud {
+            position: relative;
+            display: flex;
+        }
+
+        .cloud-circle {
+            background-color: #D1E5F4;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-triangles {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 1;
+            animation: mountainsMove 120s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes mountainsMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100px);
+            }
+        }
+
+        .triangle {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            z-index: 3;
+            position: relative;
+            max-width: 800px;
+            margin-top: 220px;
+            margin-bottom: 100px;
+            width: 100%;
+        }
+
+        .travel-plan {
+            background-color: #863e15;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 3px solid #5a2a0e;
+            color: #f2cf0d;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .travel-title {
+            font-size: 24px;
+            color: #f2cf0d;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            text-decoration: underline;
+        }
+
+        .travel-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 18px;
+        }
+
+            .travel-list li {
+                margin-bottom: 15px;
+                padding: 10px;
+                background-color: rgba(90, 42, 14, 0.3);
+                border-radius: 6px;
+                display: flex;
+            }
+
+            .travel-list strong {
+                min-width: 180px;
+                display: inline-block;
+            }
+
+        .download-button {
+            padding: 15px 40px;
+            font-size: 20px;
+            color: #f2cf0d;
+            background-color: #863e15;
+            border-radius: 8px;
+            border: 3px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            z-index: 4;
+            margin-top: 20px;
+            position: relative;
+        }
+
+            .download-button:hover {
+                background-color: #5a2a0e;
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            }
+
+        .additional-content {
+            background-color: #863e15;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 3px solid #5a2a0e;
+            color: #f2cf0d;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+        }
+
+        .content-title {
+            font-size: 22px;
+            color: #f2cf0d;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .fixed-download {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 40px;
+            font-size: 20px;
+            color: #f2cf0d;
+            background-color: #863e15;
+            border-radius: 8px;
+            border: 3px solid #5a2a0e;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            z-index: 100;
+        }
+
+            .fixed-download:hover {
+                background-color: #5a2a0e;
+                transform: scale(1.05);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            }
+    </style>
+</head>
+<body>
+
+    <img src="https://via.placeholder.com/800x800.png?text=Silly+Road+Logo" alt="Silly Road Logo" class="logo">
+
+    <div class="clouds-container">
+        <div class="cloud-group">
+            <div class="cloud" style="left: 1%; margin-top: 5px;">
+                <div class="cloud-circle" style="width: 102px; height: 102px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 17px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 34px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 8px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 3%; margin-top: 25px;">
+                <div class="cloud-circle" style="width: 119px; height: 119px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 15px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 32px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -34px; margin-top: 7px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 5%; margin-top: 40px;">
+                <div class="cloud-circle" style="width: 93px; height: 93px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 27px;"></div>
+                <div class="cloud-circle" style="width: 59px; height: 59px; margin-left: -17px; margin-top: 44px;"></div>
+                <div class="cloud-circle" style="width: 85px; height: 85px; margin-left: -25px; margin-top: 18px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 7%; margin-top: 15px;">
+                <div class="cloud-circle" style="width: 110px; height: 110px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -34px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 52px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -25px; margin-top: 27px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 9%; margin-top: 30px;">
+                <div class="cloud-circle" style="width: 85px; height: 85px;"></div>
+                <div class="cloud-circle" style="width: 68px; height: 68px; margin-left: -20px; margin-top: 23px;"></div>
+                <div class="cloud-circle" style="width: 51px; height: 51px; margin-left: -17px; margin-top: 35px;"></div>
+                <div class="cloud-circle" style="width: 76px; height: 76px; margin-left: -25px; margin-top: 5px;"></div>
+            </div>
+
+            <div class="cloud" style="left: 12%; margin-top: 10px;">
+                <div class="cloud-circle" style="width: 127px; height: 127px;"></div>
+                <div class="cloud-circle" style="width: 110px; height: 110px; margin-left: -37px; margin-top: 20px;"></div>
+                <div class="cloud-circle" style="width: 93px; height: 93px; margin-left: -30px; margin-top: 37px;"></div>
+                <div class="cloud-circle" style="width: 102px; height: 102px; margin-left: -34px; margin-top: 13px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="travel-plan">
+            <div class="travel-title">Plan Podróży</div>
+            <ul class="travel-list">
+                <li><strong>Wasz cel:</strong> Włochy, Rzym</li>
+                <li><strong>Budżet:</strong> 5 000 PLN</li>
+                <li><strong>Jedziecie tam w okresie:</strong> 15-22 lipca 2024</li>
+                <li><strong>Miejsce noclegu:</strong> Hotel Colosseum</li>
+                <li><strong>Transport:</strong> Samolot</li>
+                <li><strong>Plan wyjazdu:</strong></li>
+                <li>1. Zwiedzanie Koloseum i Forum Romanum</li>
+                <li>2. Wizyta w Watykanie i Muzeach Watykańskich</li>
+                <li>3. Spacer po Fontannie di Trevi i Schodach Hiszpańskich</li>
+            </ul>
+        </div>
+
+        <div class="additional-content">
+            <div class="content-title">Dodatkowe Informacje</div>
+            <p class="content-text">Wasza podróż do Rzymu będzie pełna niezapomnianych wrażeń. Stolica Włoch oferuje nie tylko bogatą historię, ale także wspaniałą kuchnię i klimatyczne uliczki.</p>
+            <p class="content-text">Pamiętajcie, aby zarezerwować bilety do popularnych atrakcji z wyprzedzeniem, szczególnie do Koloseum i Muzeów Watykańskich, aby uniknąć długich kolejek.</p>
+            <p class="content-text">W Rzymie warto spróbować autentycznej pizzy, makaronów carbonara i oczywiście gelato - włoskiego lodów.</p>
+        </div>
+
+        <div class="additional-content">
+            <div class="content-title">Praktyczne Wskazówki</div>
+            <p class="content-text">Transport miejski w Rzymie jest dobrze rozwinięty. Metro, autobusy i tramwaje pozwolą Wam dotrzeć do wszystkich ważnych miejsc.</p>
+            <p class="content-text">Pamiętajcie o odpowiednim ubiorze zwiedzając miejsca sakralne - ramiona i kolana powinny być zakryte.</p>
+            <p class="content-text">Woda z fontann w Rzymie jest zdatna do picia, więc możecie napełniać swoje butelki podczas zwiedzania.</p>
+        </div>
+
+        <button class="download-button" onclick="downloadPlan()">Pobierz Plan Podróży</button>
+    </div>
+
+    <button class="fixed-download" onclick="downloadPlan()">Pobierz</button>
+
+    <div class="bottom-triangles">
+        <div class="triangle" style="left: -5%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 0%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 3%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 7%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 11%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 13%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 16%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 20%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 21%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 25%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 34%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 40%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 42%; border-width: 0 60px 80px 60px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 45%; border-width: 0 70px 130px 70px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 50%; border-width: 0 65px 105px 65px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 51%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 53%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 56%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 60%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 63%; border-width: 0 72px 112px 72px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 64%; border-width: 0 62px 102px 62px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 67%; border-width: 0 78px 118px 78px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 70%; border-width: 0 85px 125px 85px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 74%; border-width: 0 58px 98px 58px; border-color: transparent transparent #482611 transparent;"></div>
+
+        <!-- Nowe góry po prawej stronie -->
+        <div class="triangle" style="left: 78%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 82%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 83%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 85%; border-width: 0 75px 115px 75px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 90%; border-width: 0 55px 95px 55px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 92%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 94%; border-width: 0 68px 108px 68px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 97%; border-width: 0 85px 125px 85px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 100%; border-width: 0 70px 130px 70px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 103%; border-width: 0 65px 105px 65px; border-color: transparent transparent #482611 transparent;"></div>
+        <div class="triangle" style="left: 106%; border-width: 0 75px 115px 75px; border-color: transparent transparent #863e15 transparent;"></div>
+        <div class="triangle" style="left: 109%; border-width: 0 80px 140px 80px; border-color: transparent transparent #482611 transparent;"></div>
+    </div>
+
+    <script>
+        function downloadPlan() {
+            alert('Plan podróży został pobrany! Możesz go teraz wydrukować lub zapisać.');
+
+            // Tutaj można dodać kod do rzeczywistego pobierania pliku
+            // Na przykład generowanie i pobieranie pliku PDF
+        }
+    </script>
+</body>
+</html>
